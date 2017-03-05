@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -95,5 +96,27 @@ public class LoginActivity extends AppCompatActivity {
     public void toRegister(View view){
         Intent intent = new Intent(this, RegisterActivity.class);
         LoginActivity.this.startActivity(intent);
+    }
+
+
+    /*
+    * This function sends a email to user for resetting the password.*/
+    public void resetPassword(View view){
+        EditText email = (EditText) findViewById(R.id.emailField);
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String emailAddress = email.getText().toString();
+
+        auth.sendPasswordResetEmail(emailAddress)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.i("Email sent.", "Email sent.");
+                            Toast.makeText(LoginActivity.this, "Check your inbox to reset your password.",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
     }
 }
