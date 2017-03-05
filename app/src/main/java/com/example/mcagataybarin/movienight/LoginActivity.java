@@ -23,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    String TAG = LoginActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +38,10 @@ public class LoginActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    Log.i("signed in", "onAuthStateChanged:signed_in:" + user.getUid());
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
                     // User is signed out
-                    Log.i("signed out", "onAuthStateChanged:signed_out");
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
 
             }
@@ -73,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            Log.i("You shall not pass", "signInWithEmail:failed", task.getException());
+                            Log.d(TAG, "signInWithEmail:failed", task.getException());
                             Toast.makeText(LoginActivity.this, "Oooppss! Try Again.",
                                     Toast.LENGTH_SHORT).show();
                         }
@@ -112,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Log.i("Email sent.", "Email sent.");
+                            Log.d(TAG, "Email sent.");
                             Toast.makeText(LoginActivity.this, "Check your inbox to reset your password.",
                                     Toast.LENGTH_LONG).show();
                         }
