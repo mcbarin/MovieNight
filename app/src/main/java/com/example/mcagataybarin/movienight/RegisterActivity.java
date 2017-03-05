@@ -1,6 +1,5 @@
 package com.example.mcagataybarin.movienight;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,21 +13,18 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 
-// https://firebase.google.com/docs/auth/android/manage-users#update_a_users_profile
-
-public class LoginActivity extends AppCompatActivity {
-
+public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
 
-        // For Firebase Authentication
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -61,39 +57,50 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public void signIn(String email, String password){
-        mAuth.signInWithEmailAndPassword(email, password)
+    public void createUserWithEmailAndPassword(String email, String password){
+        mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.i("Bienvenidos!", "signInWithEmail:onComplete:" + task.isSuccessful());
+                        Log.i("user created", "createUserWithEmail:onComplete:" + task.isSuccessful());
 
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            Log.i("You shall not pass", "signInWithEmail:failed", task.getException());
-                            Toast.makeText(LoginActivity.this, "Oooppss! Try Again.",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "Failed to create an account.", Toast.LENGTH_SHORT).show();
                         }
-                        // Successful. Do Something.
+
+                        // User created. Do something.
                     }
                 });
     }
 
+    public void onClickRegister(View view){
+        EditText name = (EditText) findViewById(R.id.nameField);
+        EditText email = (EditText) findViewById(R.id.emailRegister);
+        EditText password = (EditText) findViewById(R.id.passwordRegister);
 
-    public void onClickLogin(View view){
-        EditText email = (EditText) findViewById(R.id.emailField);
-        EditText password = (EditText) findViewById(R.id.passwordField);
-
-        signIn(email.getText().toString(), password.getText().toString());
+        createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString());
+        updateProfile(name.getText().toString());
     }
 
-    /*
-    * Starts RegisterActivity for user to sign up an account.
-    * */
-    public void toRegister(View view){
-        Intent intent = new Intent(this, RegisterActivity.class);
-        LoginActivity.this.startActivity(intent);
+    public void updateProfile(String name){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(name)
+                .build();
+
+        user.updateProfile(profileUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.i("Updated", "User profile updated.");
+                        }
+                    }
+                });
+
     }
 }
