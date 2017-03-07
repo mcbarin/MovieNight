@@ -58,6 +58,17 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+
+    public void onClickRegister(View view){
+        EditText name = (EditText) findViewById(R.id.nameField);
+        EditText email = (EditText) findViewById(R.id.emailRegister);
+        EditText password = (EditText) findViewById(R.id.passwordRegister);
+
+        createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString());
+        updateProfile(name.getText().toString());
+    }
+
+
     public void createUserWithEmailAndPassword(String email, String password){
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -75,15 +86,6 @@ public class RegisterActivity extends AppCompatActivity {
                         // User created. Do something.
                     }
                 });
-    }
-
-    public void onClickRegister(View view){
-        EditText name = (EditText) findViewById(R.id.nameField);
-        EditText email = (EditText) findViewById(R.id.emailRegister);
-        EditText password = (EditText) findViewById(R.id.passwordRegister);
-
-        createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString());
-        updateProfile(name.getText().toString());
     }
 
     public void updateProfile(String name){
