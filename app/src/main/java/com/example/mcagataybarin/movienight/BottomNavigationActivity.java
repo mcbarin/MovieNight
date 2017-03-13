@@ -8,12 +8,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationBuilderWithBuilderAccessor;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.MovementMethod;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.mcagataybarin.movienight.dummy.DummyContent;
+
 public class BottomNavigationActivity extends AppCompatActivity
-        implements HomeFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener,
-        NotificationFragment.OnFragmentInteractionListener {
+        implements ProfileFragment.OnFragmentInteractionListener,
+        NotificationFragment.OnFragmentInteractionListener, MovieFragment.OnListFragmentInteractionListener {
 
     private TextView mTextMessage;
 
@@ -24,8 +27,8 @@ public class BottomNavigationActivity extends AppCompatActivity
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment selectedFragment = null;
             switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    selectedFragment = HomeFragment.newInstance("param1", "param2");
+                case R.id.navigation_movie:
+                    selectedFragment = MovieFragment.newInstance(1);
                     break;
                 case R.id.navigation_profile:
                     selectedFragment = ProfileFragment.newInstance("param1", "param2");
@@ -56,4 +59,8 @@ public class BottomNavigationActivity extends AppCompatActivity
         //you can leave it empty
     }
 
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+
+    }
 }
