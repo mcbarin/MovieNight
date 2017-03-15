@@ -52,6 +52,11 @@ public class BottomNavigationActivity extends AppCompatActivity
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        // Movie Fragment will be automatically opened.
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.content, MovieFragment.newInstance(1));
+        transaction.commit();
     }
 
     @Override
