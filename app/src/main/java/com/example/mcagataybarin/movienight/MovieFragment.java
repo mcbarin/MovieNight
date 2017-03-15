@@ -14,6 +14,9 @@ import android.view.ViewGroup;
 import com.example.mcagataybarin.movienight.dummy.DummyContent;
 import com.example.mcagataybarin.movienight.dummy.DummyContent.DummyItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A fragment representing a list of Items.
  * <p/>
@@ -68,7 +71,8 @@ public class MovieFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MovieRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            List<Movie> upcoming_movies = FirebaseFunctions.getInstance().retrieveMovies();
+            recyclerView.setAdapter(new MovieRecyclerViewAdapter(upcoming_movies, mListener));
         }
         return view;
     }
@@ -103,7 +107,7 @@ public class MovieFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(Movie item);
     }
 
 }

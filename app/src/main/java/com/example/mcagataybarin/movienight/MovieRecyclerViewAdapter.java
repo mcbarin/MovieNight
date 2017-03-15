@@ -1,6 +1,7 @@
 package com.example.mcagataybarin.movienight;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import com.example.mcagataybarin.movienight.MovieFragment.OnListFragmentInteractionListener;
 import com.example.mcagataybarin.movienight.dummy.DummyContent.DummyItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,11 +20,11 @@ import java.util.List;
  */
 public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<Movie> upcoming_movies;
     private final OnListFragmentInteractionListener mListener;
 
-    public MovieRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
-        mValues = items;
+    public MovieRecyclerViewAdapter(List<Movie> upcoming_movies, OnListFragmentInteractionListener listener) {
+        this.upcoming_movies = upcoming_movies;
         mListener = listener;
     }
 
@@ -35,32 +37,30 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mItem = upcoming_movies.get(position);
+        holder.mIdView.setText(upcoming_movies.get(position).title);
+        holder.mContentView.setText(upcoming_movies.get(position).detail);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
+                // Notify the active callbacks interface (the activity, if the
+// fragment is attached to one) that an item has been selected.
+                if (null != mListener) mListener.onListFragmentInteraction(holder.mItem);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return upcoming_movies.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public DummyItem mItem;
+        public Movie mItem;
 
         public ViewHolder(View view) {
             super(view);

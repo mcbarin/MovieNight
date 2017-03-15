@@ -6,13 +6,9 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NotificationBuilderWithBuilderAccessor;
 import android.support.v7.app.AppCompatActivity;
-import android.text.method.MovementMethod;
 import android.view.MenuItem;
 import android.widget.TextView;
-
-import com.example.mcagataybarin.movienight.dummy.DummyContent;
 
 public class BottomNavigationActivity extends AppCompatActivity
         implements ProfileFragment.OnFragmentInteractionListener,
@@ -65,7 +61,7 @@ public class BottomNavigationActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onListFragmentInteraction(Movie item) {
 
     }
 }

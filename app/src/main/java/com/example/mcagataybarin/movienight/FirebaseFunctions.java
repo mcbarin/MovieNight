@@ -30,7 +30,7 @@ class FirebaseFunctions {
     }
 
     public ArrayList<Movie> retrieveMovies() {
-        if (upcoming_movies == null) {
+        if (upcoming_movies.size() == 0) {
             mDatabase = FirebaseDatabase.getInstance().getReference();
             DatabaseReference movies_reference = mDatabase.child("movies");
             movies_reference.addListenerForSingleValueEvent(new ValueEventListener() {
