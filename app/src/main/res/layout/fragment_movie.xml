@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout android:id="@+id/thumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="3dip"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="3dip"
+        android:layout_gravity="top" >
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="70dip"
+            android:layout_height="100dip"
+            android:layout_marginLeft="10dp"
+            />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:textSize="10dp"
+        android:layout_below="@+id/id"
+        android:textAppearance="?attr/textAppearanceListItem" />
+
+    <TextView
+        android:id="@+id/id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:layout_alignTop="@+id/thumbnail"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:textAppearance="?attr/textAppearanceListItem" />
+</RelativeLayout>
