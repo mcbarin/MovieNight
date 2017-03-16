@@ -17,6 +17,8 @@ import com.example.mcagataybarin.movienight.dummy.DummyContent.DummyItem;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 /**
  * A fragment representing a list of Items.
  * <p/>
@@ -72,7 +74,7 @@ public class MovieFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
             List<Movie> upcoming_movies = FirebaseFunctions.getInstance().retrieveMovies();
-            recyclerView.setAdapter(new MovieRecyclerViewAdapter(upcoming_movies, mListener));
+            recyclerView.setAdapter(new MovieRecyclerViewAdapter(getApplicationContext(), upcoming_movies, mListener));
         }
         return view;
     }

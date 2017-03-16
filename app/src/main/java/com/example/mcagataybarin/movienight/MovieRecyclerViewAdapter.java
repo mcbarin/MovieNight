@@ -1,5 +1,6 @@
 package com.example.mcagataybarin.movienight;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.net.Uri;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.mcagataybarin.movienight.MovieFragment.OnListFragmentInteractionListener;
 import com.example.mcagataybarin.movienight.dummy.DummyContent.DummyItem;
+import com.squareup.picasso.Picasso;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -29,8 +31,10 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
 
     private final List<Movie> upcoming_movies;
     private final OnListFragmentInteractionListener mListener;
+    private Context context;
 
-    public MovieRecyclerViewAdapter(List<Movie> upcoming_movies, OnListFragmentInteractionListener listener) {
+    public MovieRecyclerViewAdapter(Context context, List<Movie> upcoming_movies, OnListFragmentInteractionListener listener) {
+        this.context = context;
         this.upcoming_movies = upcoming_movies;
         mListener = listener;
     }
@@ -47,9 +51,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         holder.mItem = upcoming_movies.get(position);
         holder.mIdView.setText(upcoming_movies.get(position).title);
         holder.mContentView.setText(upcoming_movies.get(position).detail);
-        Drawable image = loadImageFromWebOperations(upcoming_movies.get(position).image);
-        if(image != null)
-            holder.mImageView.setImageDrawable(image);
+        Picasso.with(context).load(upcoming_movies.get(position).image).into(holder.mImageView);
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,16 +60,6 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
                 if (null != mListener) mListener.onListFragmentInteraction(holder.mItem);
             }
         });
-    }
-
-    private Drawable loadImageFromWebOperations(String url) {
-        try {
-            InputStream is = (InputStream) new URL(url).getContent();
-            Drawable d = Drawable.createFromStream(is, "Movie Image");
-            return d;
-        } catch (Exception e) {
-            return null;
-        }
     }
 
     @Override
@@ -89,7 +81,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.id);
             mContentView = (TextView) view.findViewById(R.id.content);
-            mImageView = (ImageView) view.findViewById(R.id.imageView);
+            mImageView = (ImageView) view.findViewById(R.id.image);
         }
 
         @Override
