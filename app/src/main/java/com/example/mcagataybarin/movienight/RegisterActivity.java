@@ -1,5 +1,6 @@
 package com.example.mcagataybarin.movienight;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,17 +9,23 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.mcagataybarin.movienight.Models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private DatabaseReference mDatabase;
+    private String email_s = "";
+    private String name_s = "";
     String TAG = RegisterActivity.class.getSimpleName();
 
     @Override
@@ -26,7 +33,10 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -64,12 +74,19 @@ public class RegisterActivity extends AppCompatActivity {
         EditText email = (EditText) findViewById(R.id.emailRegister);
         EditText password = (EditText) findViewById(R.id.passwordRegister);
 
-        createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString());
-        updateProfile(name.getText().toString());
+        name_s = name.getText().toString();
+        email_s = email.getText().toString();
+
+        createUserWithEmailAndPassword(name_s, email_s, password.getText().toString());
+        updateProfile(name_s);
+
+
     }
 
 
-    public void createUserWithEmailAndPassword(String email, String password){
+    public void createUserWithEmailAndPassword(String name, String email, String password){
+        name_s = name;
+        email_s = email;
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -84,6 +101,16 @@ public class RegisterActivity extends AppCompatActivity {
                         }
 
                         // User created. Do something.
+                        FirebaseUser user = task.getResult().getUser();
+                        String UID = user.getUid();
+                        User new_user = new User(name_s, email_s, "");
+                        mDatabase.child("users").child(UID).setValue(new_user);
+
+                        Intent intent = new Intent(RegisterActivity.this, BottomNavigationActivity.class);
+                        RegisterActivity.this.startActivity(intent);
+
+
+
                     }
                 });
     }

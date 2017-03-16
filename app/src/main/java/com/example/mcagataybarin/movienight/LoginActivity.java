@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mcagataybarin.movienight.Models.User;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -32,6 +33,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 
@@ -43,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     String TAG = LoginActivity.class.getSimpleName();
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,25 +90,6 @@ public class LoginActivity extends AppCompatActivity {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
 
-                    // IF USER LOGGED IN WITH FACEBOOK GET THE PROFILE PIC
-
-                    for (UserInfo profile : user.getProviderData()) {
-
-                        String providerId = profile.getProviderId();
-
-                        // UID specific to the provider
-                        String uid = profile.getUid();
-
-                        // Name, email address, and profile photo Url
-                        String name = profile.getDisplayName();
-                        String email = profile.getEmail();
-                        Uri photoUrl = profile.getPhotoUrl();
-
-                        ImageView imageView = (ImageView)findViewById(R.id.imageView);
-                        Picasso.with(getApplicationContext()).load(photoUrl).into(imageView);
-                        imageView.setVisibility(View.VISIBLE);
-
-                        };
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -140,6 +125,27 @@ public class LoginActivity extends AppCompatActivity {
                             Log.w(TAG, "signInWithCredential", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
+                        } else {
+
+                            FirebaseUser user = task.getResult().getUser();
+                            String UID = user.getUid();
+
+                            for (UserInfo profile : user.getProviderData()) {
+                                String name = profile.getDisplayName();
+                                String email = user.getEmail();
+                                Uri photoUrl = profile.getPhotoUrl();
+
+                                String pp = photoUrl.toString();
+
+                                mDatabase = FirebaseDatabase.getInstance().getReference();
+
+                                User new_user = new User(name, email, pp);
+                                mDatabase.child("users").child(UID).setValue(new_user);
+
+                            };
+
+                            Intent intent = new Intent(LoginActivity.this, BottomNavigationActivity.class);
+                            LoginActivity.this.startActivity(intent);
                         }
 
                         // ...
