@@ -4,9 +4,26 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+
+import com.example.mcagataybarin.movienight.Models.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 /**
@@ -26,6 +43,17 @@ public class ProfileFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private String name_s = "";
+    private String email_s = "";
+
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private DatabaseReference mDatabase;
+    private FirebaseUser user;
+    private EditText name;
+    private EditText email;
+    private View view;
 
     private OnFragmentInteractionListener mListener;
 
@@ -64,7 +92,46 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        final String UID = user.getUid();
+
+        name = (EditText) view.findViewById(R.id.Name);
+        email = (EditText) view.findViewById(R.id.Email);
+        EditText password = (EditText) view.findViewById(R.id.Password);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        mDatabase.child("users").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user_read = dataSnapshot.getValue(User.class);
+                if(!(user_read == null)) {
+                    name.setText(user_read.username);
+                    email.setText(user_read.email);
+
+                    String photoUrl = user_read.pp_url;
+                    if(!photoUrl.isEmpty()) {
+                        Uri photo_url = Uri.parse(photoUrl);
+
+                        ImageView imageView = (ImageView) view.findViewById(R.id.pp);
+                        Picasso.with(getApplicationContext()).load(photo_url).into(imageView);
+                        imageView.setVisibility(View.VISIBLE);
+                    }
+                }
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
