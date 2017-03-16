@@ -1,7 +1,6 @@
 package com.example.mcagataybarin.movienight;
 
-import android.util.Log;
-
+import com.example.mcagataybarin.movienight.Models.Movie;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

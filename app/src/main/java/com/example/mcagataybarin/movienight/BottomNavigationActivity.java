@@ -8,13 +8,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
+
+import com.example.mcagataybarin.movienight.Models.Movie;
 
 public class BottomNavigationActivity extends AppCompatActivity
         implements ProfileFragment.OnFragmentInteractionListener,
         NotificationFragment.OnFragmentInteractionListener, MovieFragment.OnListFragmentInteractionListener {
-
-    private TextView mTextMessage;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {

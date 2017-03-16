@@ -1,4 +1,4 @@
-package com.example.mcagataybarin.movienight;
+package com.example.mcagataybarin.movienight.Models;
 
 import java.util.HashMap;
 
