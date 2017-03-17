@@ -1,7 +1,9 @@
 package com.example.mcagataybarin.movienight;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +41,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mItem = upcoming_movies.get(position);
         holder.mIdView.setText(upcoming_movies.get(position).title);
         holder.mContentView.setText(upcoming_movies.get(position).detail);
@@ -50,6 +52,12 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
                 // Notify the active callbacks interface (the activity, if the
 // fragment is attached to one) that an item has been selected.
                 if (null != mListener) mListener.onListFragmentInteraction(holder.mItem);
+
+                // Movie Selected. Open MovieDetailActivity
+                Intent intent = new Intent(context, MovieDetailActivity.class);
+                intent.putExtra("movie_index", position);
+                context.startActivity(intent);
+
             }
         });
     }
