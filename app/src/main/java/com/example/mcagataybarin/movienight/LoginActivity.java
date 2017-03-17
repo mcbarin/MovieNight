@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.mcagataybarin.movienight.Models.Event;
 import com.example.mcagataybarin.movienight.Models.User;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -32,6 +33,8 @@ import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 
 // https://firebase.google.com/docs/auth/android/manage-users#update_a_users_profile
 
@@ -50,6 +53,20 @@ public class LoginActivity extends AppCompatActivity {
 
         // Load the movies beforehand.  :):):):)
         FirebaseFunctions.getInstance().retrieveMovies();
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        Event new_ev = new Event();
+        new_ev.week = "0";
+        new_ev.movie = "1";
+        new_ev.city = "Istanbul";
+        ArrayList arr = new ArrayList();
+        arr.add("Jkqwekqwekqkwrqkr");
+        new_ev.requests = arr;
+        ArrayList arr2 = new ArrayList();
+        arr2.add("Jkqwekqwekqkwrqkr123123");
+        new_ev.participants = arr2;
+        new_ev.creator = "jqweKQWEkasdfMASFQWEQWEKASDKFASDFKawerMwEKQWEKQWEKQWEJQWEKQWEK";
+        mDatabase.child("events").setValue(new_ev);
 
         // For Facebook Authentication
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -191,8 +208,6 @@ public class LoginActivity extends AppCompatActivity {
                             Intent intent = new Intent(LoginActivity.this, BottomNavigationActivity.class);
                             LoginActivity.this.startActivity(intent);
                         }
-
-
                     }
                 });
     }

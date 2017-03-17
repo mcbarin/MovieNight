@@ -9,7 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.mcagataybarin.movienight.Models.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,7 +53,7 @@ public class ProfileFragment extends Fragment {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabase;
     private FirebaseUser user;
-    private EditText name;
+    private TextView name;
     private EditText email;
     private View view;
 
@@ -100,9 +102,9 @@ public class ProfileFragment extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
         final String UID = user.getUid();
 
-        name = (EditText) view.findViewById(R.id.Name);
-        email = (EditText) view.findViewById(R.id.Email);
-        EditText password = (EditText) view.findViewById(R.id.Password);
+        name = (TextView) view.findViewById(R.id.user_profile_name);
+        //email = (EditText) view.findViewById(R.id.Email);
+        //EditText password = (EditText) view.findViewById(R.id.Password);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -118,12 +120,11 @@ public class ProfileFragment extends Fragment {
                     if(!photoUrl.isEmpty()) {
                         Uri photo_url = Uri.parse(photoUrl);
 
-                        ImageView imageView = (ImageView) view.findViewById(R.id.pp);
+                        ImageButton imageView = (ImageButton) view.findViewById(R.id.user_profile_photo);
                         Picasso.with(getApplicationContext()).load(photo_url).into(imageView);
                         imageView.setVisibility(View.VISIBLE);
                     }
                 }
-
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {

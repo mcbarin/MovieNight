@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.mcagataybarin.movienight.Models.Event;
 import com.example.mcagataybarin.movienight.Models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -18,6 +19,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 
 public class RegisterActivity extends AppCompatActivity {
@@ -80,9 +83,27 @@ public class RegisterActivity extends AppCompatActivity {
         createUserWithEmailAndPassword(name_s, email_s, password.getText().toString());
         updateProfile(name_s);
 
+        mAuth.signInWithEmailAndPassword(email_s, password.getText().toString())
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.i("Bienvenidos!", "signInWithEmail:onComplete:" + task.isSuccessful());
 
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Log.d(TAG, "signInWithEmail:failed", task.getException());
+                            Toast.makeText(RegisterActivity.this, "Oooppss! Try Again.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Intent intent = new Intent(RegisterActivity.this, BottomNavigationActivity.class);
+                            RegisterActivity.this.startActivity(intent);
+                        }
+                    }
+                });
     }
-
 
     public void createUserWithEmailAndPassword(String name, String email, String password){
         name_s = name;
@@ -105,11 +126,6 @@ public class RegisterActivity extends AppCompatActivity {
                         String UID = user.getUid();
                         User new_user = new User(name_s, email_s, "");
                         mDatabase.child("users").child(UID).setValue(new_user);
-
-                        Intent intent = new Intent(RegisterActivity.this, BottomNavigationActivity.class);
-                        RegisterActivity.this.startActivity(intent);
-
-
 
                     }
                 });
