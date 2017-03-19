@@ -49,7 +49,7 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
             imageURL = m.image;
         }else if(mParent.equals("movie")){
             User user = FirebaseFunctions.getInstance().getUserById(mValues.get(position).creator);
-            user_movie_text = user.username;
+            user_movie_text = user.name;
             imageURL = user.pp_url;
         }
         holder.user_movie.setText(user_movie_text);

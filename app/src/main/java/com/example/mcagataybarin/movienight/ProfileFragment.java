@@ -107,7 +107,7 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user_read = dataSnapshot.getValue(User.class);
                 if(!(user_read == null)) {
-                    name.setText(user_read.username);
+                    name.setText(user_read.name);
 
                     String photoUrl = user_read.pp_url;
                     if(!photoUrl.isEmpty()) {

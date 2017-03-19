@@ -1,5 +1,7 @@
 package com.example.mcagataybarin.movienight;
 
+import android.util.Log;
+
 import com.example.mcagataybarin.movienight.Models.Event;
 import com.example.mcagataybarin.movienight.Models.Movie;
 import com.example.mcagataybarin.movienight.Models.User;
@@ -24,7 +26,7 @@ class FirebaseFunctions {
     private DatabaseReference mDatabase;
     private ArrayList<Movie> upcoming_movies = new ArrayList<>();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
+    private String currentWeek = "";
     private static final FirebaseFunctions ourInstance = new FirebaseFunctions();
 
     static FirebaseFunctions getInstance() {
@@ -72,7 +74,7 @@ class FirebaseFunctions {
     public User getUserById(String id){
         User user = new User();
         user.pp_url = "https://media.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAATTAAAAJGYyMTJiOTk0LTE3MTktNDc1OC1hMDIyLTEzYWQ4NjAyOWMwZA.jpg";
-        user.username = "Mehmet Cagatay Barin";
+        user.name = "Mehmet Cagatay Barin";
 
         return user;
     }
@@ -111,6 +113,24 @@ class FirebaseFunctions {
 
     // TODO: For now its 0, implement later.
     public String getCurrentWeek(){
-        return "0";
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference movies_reference = mDatabase.child("movies");
+
+        movies_reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<Object> movies = ((ArrayList<Object>) dataSnapshot.getValue());
+                currentWeek = String.valueOf(movies.size());
+                Log.d("Children count:", String.valueOf(dataSnapshot.getChildrenCount()));
+                Log.d("CUrrentT WEEKK count:", currentWeek);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        return currentWeek;
     }
 }

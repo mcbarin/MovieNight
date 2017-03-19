@@ -53,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Load the movies beforehand.  :):):):)
         FirebaseFunctions.getInstance().retrieveMovies();
+        FirebaseFunctions.getInstance().getCurrentWeek();
 
         // For Facebook Authentication
         FacebookSdk.sdkInitialize(getApplicationContext());

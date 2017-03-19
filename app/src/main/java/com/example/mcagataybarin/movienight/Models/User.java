@@ -14,7 +14,7 @@ import java.util.Map;
 @IgnoreExtraProperties
 public class User {
 
-    public String username;
+    public String name;
     public String email;
     public String pp_url;
 
@@ -23,7 +23,7 @@ public class User {
     }
 
     public User(String username, String email, String pp_url) {
-        this.username = username;
+        this.name = username;
         this.email = email;
         this.pp_url = pp_url;
     }
@@ -31,7 +31,7 @@ public class User {
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("username", username);
+        result.put("name", name);
         result.put("email", email);
         result.put("pp_url", pp_url);
 
