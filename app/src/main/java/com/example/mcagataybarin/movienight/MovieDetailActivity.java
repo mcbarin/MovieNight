@@ -1,15 +1,18 @@
 package com.example.mcagataybarin.movienight;
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.mcagataybarin.movienight.Models.Event;
 import com.example.mcagataybarin.movienight.Models.Movie;
 import com.squareup.picasso.Picasso;
 
-public class MovieDetailActivity extends AppCompatActivity {
+public class MovieDetailActivity extends AppCompatActivity implements EventFragment.OnListFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,21 @@ public class MovieDetailActivity extends AppCompatActivity {
         genreInfo.setText(movie.genre);
         dateInfo.setText(movie.date);
         directorInfo.setText(movie.director);
+
+
+        // Create the event fragment inside activity.
+        EventFragment eventFragment = EventFragment.newInstance(1, "movie");
+        // TODO: add parameters later.
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.eventFragment, eventFragment);
+        transaction.commit();
+
+
+    }
+
+    @Override
+    public void onListFragmentInteraction(Event event) {
 
     }
 }

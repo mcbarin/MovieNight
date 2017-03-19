@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="com.example.mcagataybarin.movienight.ProfileFragment"
+    >
 
         <RelativeLayout
             android:id="@+id/profile_layout"
-            android:layout_width="match_parent"
+            android:layout_width="368dp"
             android:layout_height="wrap_content"
-            android:background="#ebca0707"
             android:elevation="4dp"
-            android:paddingBottom="24dp">
+            android:paddingBottom="24dp"
+            tools:layout_editor_absoluteY="8dp"
+            tools:layout_editor_absoluteX="8dp">
 
             <TextView
                 android:id="@+id/user_profile_name"
@@ -23,7 +23,7 @@
                 android:layout_marginTop="90dp"
                 android:paddingTop="25dp"
                 android:text="UserName"
-                android:textColor="#fff"
+                android:textColor="@android:color/black"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -39,9 +39,17 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="11dp" />
 
+            <FrameLayout
+                android:id="@+id/user_events"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/user_profile_name"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="bottom">
+
+            </FrameLayout>
+
         </RelativeLayout>
 
-        
 
-    </RelativeLayout>
-</ScrollView>
+</android.support.constraint.ConstraintLayout>

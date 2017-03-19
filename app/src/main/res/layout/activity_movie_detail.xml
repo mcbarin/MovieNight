@@ -8,7 +8,9 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="0dp">
 
         <ImageView
             android:id="@+id/imageView"
@@ -119,7 +121,19 @@
             android:textColor="@android:color/black"
             android:layout_marginLeft="4sp"
             />
+
+        <FrameLayout
+            android:id="@+id/eventFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_below="@+id/imageView"
+            android:layout_marginTop="4dp">
+
+        </FrameLayout>
+
     </RelativeLayout>
+
 
 
 </android.support.constraint.ConstraintLayout>

@@ -3,8 +3,8 @@ package com.example.mcagataybarin.movienight;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -53,20 +53,6 @@ public class LoginActivity extends AppCompatActivity {
 
         // Load the movies beforehand.  :):):):)
         FirebaseFunctions.getInstance().retrieveMovies();
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        Event new_ev = new Event();
-        new_ev.week = "0";
-        new_ev.movie = "1";
-        new_ev.city = "Istanbul";
-        ArrayList arr = new ArrayList();
-        arr.add("Jkqwekqwekqkwrqkr");
-        new_ev.requests = arr;
-        ArrayList arr2 = new ArrayList();
-        arr2.add("Jkqwekqwekqkwrqkr123123");
-        new_ev.participants = arr2;
-        new_ev.creator = "jqweKQWEkasdfMASFQWEQWEKASDKFASDFKawerMwEKQWEKQWEKQWEJQWEKQWEK";
-        mDatabase.child("events").setValue(new_ev);
 
         // For Facebook Authentication
         FacebookSdk.sdkInitialize(getApplicationContext());

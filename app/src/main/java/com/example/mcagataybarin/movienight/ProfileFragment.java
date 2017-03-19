@@ -54,7 +54,6 @@ public class ProfileFragment extends Fragment {
     private DatabaseReference mDatabase;
     private FirebaseUser user;
     private TextView name;
-    private EditText email;
     private View view;
 
     private OnFragmentInteractionListener mListener;
@@ -114,7 +113,6 @@ public class ProfileFragment extends Fragment {
                 User user_read = dataSnapshot.getValue(User.class);
                 if(!(user_read == null)) {
                     name.setText(user_read.username);
-                    email.setText(user_read.email);
 
                     String photoUrl = user_read.pp_url;
                     if(!photoUrl.isEmpty()) {
