@@ -4,33 +4,74 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/eventImage"
-        android:layout_width="70dp"
-        android:layout_height="100dp"
-        android:layout_marginLeft="10dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/user_movie"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem"
-        android:textColor="@android:color/black"/>
+        <ImageView
+            android:id="@+id/eventImage"
+            android:layout_width="80dp"
+            android:layout_height="110dp"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"/>
 
-    <TextView
-        android:id="@+id/city"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem"
-        android:textColor="@android:color/black"/>
+        <TextView
+            android:id="@+id/user_movie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@android:color/black"
+            android:layout_toRightOf="@+id/eventImage"
+            android:layout_marginTop="10dp"
+            android:text="adASdasdASDasd"/>
 
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:textAppearance="?attr/textAppearanceListItem"
-        android:layout_margin="@dimen/text_margin"/>
+
+        <TextView
+            android:id="@+id/cityLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="18sp"
+            android:layout_margin="@dimen/text_margin"
+            android:layout_toRightOf="@+id/eventImage"
+            android:layout_below="@+id/user_movie"
+            android:textColor="@android:color/black"
+            android:text="Şehir: "
+            android:layout_marginTop="5dp"/>
+        <TextView
+            android:id="@+id/city"
+            android:layout_width="wrap_content"
+            android:layout_height="18sp"
+            android:layout_margin="@dimen/text_margin"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@android:color/black"
+            android:layout_toRightOf="@+id/cityLabel"
+            android:layout_below="@+id/user_movie"
+            android:layout_marginTop="5dp"
+            android:text="adASdasdASDasd"/>
+
+
+        <TextView
+            android:id="@+id/eventDateLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="18sp"
+            android:layout_margin="@dimen/text_margin"
+            android:layout_toRightOf="@+id/eventImage"
+            android:layout_below="@+id/cityLabel"
+            android:textColor="@android:color/black"
+            android:text="Tarih: "
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="18sp"
+            android:textColor="@android:color/black"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:layout_margin="@dimen/text_margin"
+            android:layout_toRightOf="@+id/eventDateLabel"
+            android:layout_below="@+id/city"
+            android:layout_marginTop="5dp"
+            android:text="adASdasdASDasd"/>
+    </RelativeLayout>
+
 </LinearLayout>

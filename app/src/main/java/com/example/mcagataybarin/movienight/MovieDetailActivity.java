@@ -13,6 +13,7 @@ import com.example.mcagataybarin.movienight.Models.Movie;
 import com.squareup.picasso.Picasso;
 
 public class MovieDetailActivity extends AppCompatActivity implements EventFragment.OnListFragmentInteractionListener {
+    private Movie movie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +23,7 @@ public class MovieDetailActivity extends AppCompatActivity implements EventFragm
         // Get index of which movie to show.
         Intent intent = getIntent();
         int movie_index = intent.getIntExtra("movie_index", 0);
-        Movie movie = FirebaseFunctions.getInstance().retrieveMovies().get(movie_index);
+        movie = FirebaseFunctions.getInstance().retrieveMovies().get(movie_index);
 
         // Get the views from layout by their ids
         ImageView movieImage = (ImageView) findViewById(R.id.imageView);
@@ -40,8 +41,7 @@ public class MovieDetailActivity extends AppCompatActivity implements EventFragm
 
 
         // Create the event fragment inside activity.
-        EventFragment eventFragment = EventFragment.newInstance(1, "movie");
-        // TODO: add parameters later.
+        EventFragment eventFragment = EventFragment.newInstance(1, "movie", FirebaseFunctions.getInstance().getCurrentWeek(), ""+movie_index);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.eventFragment, eventFragment);

@@ -9,11 +9,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.example.mcagataybarin.movienight.Models.Event;
 import com.example.mcagataybarin.movienight.Models.Movie;
 
 public class BottomNavigationActivity extends AppCompatActivity
         implements ProfileFragment.OnFragmentInteractionListener,
-        NotificationFragment.OnFragmentInteractionListener, MovieFragment.OnListFragmentInteractionListener {
+        NotificationFragment.OnFragmentInteractionListener, MovieFragment.OnListFragmentInteractionListener, EventFragment.OnListFragmentInteractionListener {
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -26,7 +27,7 @@ public class BottomNavigationActivity extends AppCompatActivity
                     selectedFragment = MovieFragment.newInstance(1);
                     break;
                 case R.id.navigation_profile:
-                    selectedFragment = ProfileFragment.newInstance("param1", "param2");
+                    selectedFragment = ProfileFragment.newInstance(FirebaseFunctions.getInstance().getCurrentUserId());
                     break;
                 case R.id.navigation_notifications:
                     selectedFragment = NotificationFragment.newInstance("param1", "param2");
@@ -61,6 +62,11 @@ public class BottomNavigationActivity extends AppCompatActivity
 
     @Override
     public void onListFragmentInteraction(Movie item) {
+
+    }
+
+    @Override
+    public void onListFragmentInteraction(Event event){
 
     }
 }

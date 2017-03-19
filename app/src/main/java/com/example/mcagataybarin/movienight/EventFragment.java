@@ -26,13 +26,20 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  */
 public class EventFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
     private static final String ARG_PARENT = "parent-name";
     private static final String ARG_COLUMN_COUNT = "column-count";
+    private static final String ARG_EXTRA1 = "extra-1";
+    private static final String ARG_EXTRA2 = "extra-2";
 
-    // TODO: Customize parameters
+    /*
+    * If parent is movie, extra-1 is week, extra-2 is movie index.
+    * If parent is profile, extra-1 is user id. extra-2 will be empty and not used.
+    * */
+
     private String mParent = "movie"; // movie or profile
     private int mColumnCount = 1;
+    private String mExtra1 = "";
+    private String mExtra2 = "";
     private OnListFragmentInteractionListener mListener;
 
     /**
@@ -42,11 +49,13 @@ public class EventFragment extends Fragment {
     public EventFragment() {
     }
 
-    public static EventFragment newInstance(int columnCount, String parent) {
+    public static EventFragment newInstance(int columnCount, String parent, String extra1, String extra2) {
         EventFragment fragment = new EventFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARENT, parent);
         args.putInt(ARG_COLUMN_COUNT, columnCount);
+        args.putString(ARG_EXTRA1, extra1);
+        args.putString(ARG_EXTRA2, extra2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -77,15 +86,12 @@ public class EventFragment extends Fragment {
             }
 
             // Change this later.
-            List<Event> events = new ArrayList<>();
-            Event event = new Event();
-            event.city = "Mugla";
-            event.movie = "GORA";
-            event.date = "20.04.2017";
-            event.creator = "asdasd";
-            events.add(event);
+            List<Event> events;
 
-
+            if(mParent.equals("profile"))
+                events = FirebaseFunctions.getInstance().getUserEventsById(mExtra1);
+            else
+                events = FirebaseFunctions.getInstance().getMovieEvents(mExtra1, mExtra2);
             recyclerView.setAdapter(new EventRecyclerViewAdapter(getApplicationContext(), events, mParent, mListener));
         }
         return view;

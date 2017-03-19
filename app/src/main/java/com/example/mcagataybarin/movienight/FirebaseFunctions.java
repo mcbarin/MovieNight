@@ -3,6 +3,8 @@ package com.example.mcagataybarin.movienight;
 import com.example.mcagataybarin.movienight.Models.Event;
 import com.example.mcagataybarin.movienight.Models.Movie;
 import com.example.mcagataybarin.movienight.Models.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,6 +23,7 @@ import java.util.List;
 class FirebaseFunctions {
     private DatabaseReference mDatabase;
     private ArrayList<Movie> upcoming_movies = new ArrayList<>();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     private static final FirebaseFunctions ourInstance = new FirebaseFunctions();
 
@@ -78,6 +81,12 @@ class FirebaseFunctions {
     // Returns the created events for a movie.
     public ArrayList<Event> getMovieEvents(String week, String index){
         ArrayList<Event> events = new ArrayList<>();
+        Event event = new Event();
+        event.city = "Mugla";
+        event.movie = "GORA";
+        event.date = "20.04.2017";
+        event.creator = "asdasd";
+        events.add(event);
 
         return events;
     }
@@ -86,7 +95,22 @@ class FirebaseFunctions {
     // Returns the events of a user by its id.
     public ArrayList<Event> getUserEventsById(String id){
         ArrayList<Event> events = new ArrayList<>();
-
+        Event event = new Event();
+        event.city = "Mugla";
+        event.movie = "GORA";
+        event.date = "20.04.2017";
+        event.creator = "asdasd";
+        events.add(event);
         return events;
+    }
+
+    public String getCurrentUserId(){
+        FirebaseUser user = mAuth.getCurrentUser();
+        return user.getUid();
+    }
+
+    // TODO: For now its 0, implement later.
+    public String getCurrentWeek(){
+        return "0";
     }
 }
