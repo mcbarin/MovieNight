@@ -1,5 +1,6 @@
 package com.example.mcagataybarin.movienight;
 
+import com.example.mcagataybarin.movienight.Models.Event;
 import com.example.mcagataybarin.movienight.Models.Movie;
 import com.example.mcagataybarin.movienight.Models.User;
 import com.google.firebase.database.DataSnapshot;
@@ -10,6 +11,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -70,5 +72,21 @@ class FirebaseFunctions {
         user.username = "Mehmet Cagatay Barin";
 
         return user;
+    }
+
+    // TODO: Implement the query.
+    // Returns the created events for a movie.
+    public ArrayList<Event> getMovieEvents(String week, String index){
+        ArrayList<Event> events = new ArrayList<>();
+
+        return events;
+    }
+
+    // TODO: Implement the query.
+    // Returns the events of a user by its id.
+    public ArrayList<Event> getUserEventsById(String id){
+        ArrayList<Event> events = new ArrayList<>();
+
+        return events;
     }
 }
