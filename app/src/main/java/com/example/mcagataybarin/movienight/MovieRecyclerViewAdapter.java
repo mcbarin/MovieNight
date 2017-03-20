@@ -51,6 +51,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
                 // Movie Selected. Open MovieDetailActivity
                 Intent intent = new Intent(context, MovieDetailActivity.class);
                 intent.putExtra("movie_index", position);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
 
             }

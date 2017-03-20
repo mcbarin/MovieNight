@@ -8,8 +8,7 @@ import java.util.HashMap;
  */
 
 public class Event {
-    public String week, movie, date, city, creator;
-    public int hour, min;
+    public String week, movie, date, city, creator, hour, min, event_id;
     public ArrayList participants, requests;
 
     public Event(){
@@ -24,8 +23,9 @@ public class Event {
         this.creator = (String) event_info.get("creator");
         this.participants = (ArrayList) event_info.get("participants");
         this.requests = (ArrayList) event_info.get("requests");
-        this.hour = (int) event_info.get("hour");
-        this.min = (int) event_info.get("min");
+        this.hour = (String) event_info.get("hour");
+        this.min = (String) event_info.get("min");
+        this.event_id = (String) event_info.get("event_id");
     }
 
 
