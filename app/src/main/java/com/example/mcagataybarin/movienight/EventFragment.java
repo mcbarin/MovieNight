@@ -12,6 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.mcagataybarin.movienight.Models.Event;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 
 import java.util.ArrayList;
@@ -31,6 +37,8 @@ public class EventFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     private static final String ARG_EXTRA1 = "extra-1";
     private static final String ARG_EXTRA2 = "extra-2";
+    private ArrayList<Event> movie_events = new ArrayList<>();
+    private DatabaseReference mDatabase;
 
     /*
     * If parent is movie, extra-1 is week, extra-2 is movie index.
@@ -79,7 +87,7 @@ public class EventFragment extends Fragment {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            final RecyclerView recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
@@ -87,17 +95,49 @@ public class EventFragment extends Fragment {
             }
 
             // Change this later.
-            List<Event> events;
+            List<Event> events = null;
 
             if(mParent.equals("profile"))
                 events = FirebaseFunctions.getInstance().getUserEventsById(mExtra1);
-            else
-                events = FirebaseFunctions.getInstance().getMovieEvents(mExtra1, mExtra2);
-
-            recyclerView.setAdapter(new EventRecyclerViewAdapter(getApplicationContext(), events, mParent, mListener));
+            else {
+                retrieveMovies(new Runnable() {
+                    public void run() {
+                        recyclerView.setAdapter(new EventRecyclerViewAdapter(getApplicationContext(), movie_events, mParent, mListener));
+                    }
+                });
+            }
         }
         return view;
     }
+
+
+    public void retrieveMovies(final Runnable onLoaded){
+        movie_events = new ArrayList<>();
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        Query query = mDatabase.child("events").orderByChild("week").equalTo(mExtra1);
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                        Event event = issue.getValue(Event.class);
+                        Log.d("anani ", event.city + " " + event.movie +" "+ event.event_id);
+                        movie_events.add(event);
+                        if (event.movie.equalsIgnoreCase(mExtra2))
+                            movie_events.add(event);
+                    }
+                    onLoaded.run();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    };
 
 
     @Override

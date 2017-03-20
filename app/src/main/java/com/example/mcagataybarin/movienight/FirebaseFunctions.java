@@ -5,6 +5,8 @@ import android.util.Log;
 import com.example.mcagataybarin.movienight.Models.Event;
 import com.example.mcagataybarin.movienight.Models.Movie;
 import com.example.mcagataybarin.movienight.Models.User;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -21,6 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 
 /**
  * Created by mcagataybarin on 3/15/17.
@@ -29,10 +33,12 @@ import java.util.Objects;
 class FirebaseFunctions {
     private DatabaseReference mDatabase;
     private ArrayList<Movie> upcoming_movies = new ArrayList<>();
-    private ArrayList<Event> movie_events = new ArrayList<>();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private String currentWeek = "";
     private static final FirebaseFunctions ourInstance = new FirebaseFunctions();
+
+    private TaskCompletionSource<DataSnapshot> dbSource = new TaskCompletionSource<>();
+    private Task dbTask = dbSource.getTask();
 
     static FirebaseFunctions getInstance() {
         return ourInstance;
@@ -83,44 +89,6 @@ class FirebaseFunctions {
         user.name = "Mehmet Cagatay Barin";
 
         return user;
-    }
-
-    // TODO: Implement the query.
-    // Returns the created events for a movie.
-    public ArrayList<Event> getMovieEvents(String week, final String index) {
-        retrieveMovieEvents(week, index);
-
-        return movie_events;
-    }
-
-    public void retrieveMovieEvents(String week, final String index){
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        Query query = mDatabase.child("events").orderByChild("week").equalTo(week);
-
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot issue : dataSnapshot.getChildren()) {
-                        Event event = issue.getValue(Event.class);
-                        Log.d("anani ", event.city + " " + event.movie +" "+ event.event_id);
-                        movie_events.add(event);
-                        if (event.movie.equalsIgnoreCase(index))
-                            movie_events.add(event);
-                    }
-                }
-            }
-
-            public ArrayList<Event> onQueryFinished() {
-                return movie_events;
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 
     // TODO: Implement the query.
