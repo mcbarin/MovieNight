@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.mcagataybarin.movienight.Models.Event;
+import com.example.mcagataybarin.movienight.Models.Movie;
+import com.example.mcagataybarin.movienight.Models.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -94,12 +96,22 @@ public class EventFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            // Change this later.
-            List<Event> events = null;
+            if (mParent.equals("profile")) {
+                retrieveMovies(new Runnable() {
+                    public void run() {
+                        recyclerView.setAdapter(new EventRecyclerViewAdapter(getApplicationContext(), movie_events, mParent, mListener));
+                    }
+                });
 
-            if(mParent.equals("profile"))
-                events = FirebaseFunctions.getInstance().getUserEventsById(mExtra1);
+            }
+
             else {
+//                Movie new_mov = FirebaseFunctions.getInstance().getMovieByWeekAndIndex("1", "4");
+//                Log.d("MOVIEE", new_mov.title);
+//
+//                User user = FirebaseFunctions.getInstance().getUserById("RWmKVrF63rU6u2HQ1U5x4pCv5ak2");
+//                Log.d("USEAA", user.name);
+
                 retrieveMovies(new Runnable() {
                     public void run() {
                         recyclerView.setAdapter(new EventRecyclerViewAdapter(getApplicationContext(), movie_events, mParent, mListener));
@@ -111,7 +123,64 @@ public class EventFragment extends Fragment {
     }
 
 
-    public void retrieveMovies(final Runnable onLoaded){
+    public void retrieveUserMovies(final Runnable onLoaded) {
+        if (mParent.equalsIgnoreCase("profile")) {
+            movie_events = new ArrayList<>();
+
+            mDatabase = FirebaseDatabase.getInstance().getReference();
+
+            Query query = mDatabase.child("events").orderByChild("creator").equalTo(mExtra1);
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                            Event event = issue.getValue(Event.class);
+                            Log.d("Event ", event.city + " " + event.movie + " " + event.event_id);
+                            movie_events.add(event);
+                        }
+                        onLoaded.run();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+
+        } else {
+            movie_events = new ArrayList<>();
+
+            mDatabase = FirebaseDatabase.getInstance().getReference();
+
+            Query query = mDatabase.child("events").orderByChild("week").equalTo(mExtra1);
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                            Event event = issue.getValue(Event.class);
+                            Log.d("Event ", event.city + " " + event.movie + " " + event.event_id);
+                            if (event.movie.equalsIgnoreCase(mExtra2))
+                                movie_events.add(event);
+                        }
+                        onLoaded.run();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+        }
+    }
+
+    ;
+
+
+    public void retrieveMovies(final Runnable onLoaded) {
         movie_events = new ArrayList<>();
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -124,20 +193,21 @@ public class EventFragment extends Fragment {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot issue : dataSnapshot.getChildren()) {
                         Event event = issue.getValue(Event.class);
-                        Log.d("anani ", event.city + " " + event.movie +" "+ event.event_id);
-                        movie_events.add(event);
+                        Log.d("Event ", event.city + " " + event.movie + " " + event.event_id);
                         if (event.movie.equalsIgnoreCase(mExtra2))
                             movie_events.add(event);
                     }
                     onLoaded.run();
                 }
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
-    };
+    }
+
+    ;
 
 
     @Override

@@ -52,6 +52,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         // Load the movies beforehand.  :):):):)
+        String curr = FirebaseFunctions.getInstance().getCurrentWeek();
+        Log.d("ANAN", curr);
         FirebaseFunctions.getInstance().retrieveMovies();
 
         // For Facebook Authentication

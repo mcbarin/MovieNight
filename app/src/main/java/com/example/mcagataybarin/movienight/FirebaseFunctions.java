@@ -36,6 +36,8 @@ class FirebaseFunctions {
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private String currentWeek = "";
     private static final FirebaseFunctions ourInstance = new FirebaseFunctions();
+    private Movie movie;
+    private User user;
 
     private TaskCompletionSource<DataSnapshot> dbSource = new TaskCompletionSource<>();
     private Task dbTask = dbSource.getTask();
@@ -48,9 +50,11 @@ class FirebaseFunctions {
     }
 
     public ArrayList<Movie> retrieveMovies() {
+
         if (upcoming_movies.size() == 0) {
             mDatabase = FirebaseDatabase.getInstance().getReference();
-            DatabaseReference movies_reference = mDatabase.child("movies").child("0");
+
+            DatabaseReference movies_reference = mDatabase.child("movies").child("1");
 
             movies_reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -75,18 +79,42 @@ class FirebaseFunctions {
     // TODO: Implement the query.
     // Returns the movie object by week and index of the movie.
     public Movie getMovieByWeekAndIndex(String week, String index) {
-        Movie movie;
 
-        movie = upcoming_movies.get(0);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        DatabaseReference ref = mDatabase.child("movies").child(week).child(index);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    movie = dataSnapshot.getValue(Movie.class);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
         return movie;
     }
 
     // TODO: Implement the query.
     // Returns the user object by its id.
     public User getUserById(String id) {
-        User user = new User();
-        user.pp_url = "https://media.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAATTAAAAJGYyMTJiOTk0LTE3MTktNDc1OC1hMDIyLTEzYWQ4NjAyOWMwZA.jpg";
-        user.name = "Mehmet Cagatay Barin";
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        DatabaseReference ref = mDatabase.child("users").child(id);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    user = dataSnapshot.getValue(User.class);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
 
         return user;
     }
