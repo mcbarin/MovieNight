@@ -78,6 +78,8 @@ public class EventFragment extends Fragment {
         if (getArguments() != null) {
             mParent = getArguments().getString(ARG_PARENT);
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            mExtra1 = getArguments().getString(ARG_EXTRA1);
+            mExtra2 = getArguments().getString(ARG_EXTRA2);
         }
     }
 
