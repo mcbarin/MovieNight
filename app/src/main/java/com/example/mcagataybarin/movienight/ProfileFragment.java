@@ -110,6 +110,7 @@ public class ProfileFragment extends Fragment {
                     name.setText(user_read.name);
 
                     String photoUrl = user_read.pp_url;
+                    FirebaseFunctions.getInstance().user_pp_url = user_read.pp_url;
                     if(!photoUrl.isEmpty()) {
                         Uri photo_url = Uri.parse(photoUrl);
 

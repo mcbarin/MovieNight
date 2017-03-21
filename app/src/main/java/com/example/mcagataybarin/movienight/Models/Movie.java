@@ -10,7 +10,7 @@ public class Movie {
     public String date, detail, director, duration, genre, image, title;
 
     public Movie(){
-        
+
     }
 
     public Movie(HashMap<String, String> movie_info) {

@@ -2,6 +2,7 @@ package com.example.mcagataybarin.movienight;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +52,7 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mItem = mValues.get(position);
 
         if (mParent.equals("profile")) {// If parent is MovieFragment
@@ -59,6 +60,11 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
             getMovieByWeekAndIndex(new Runnable() {
                 public void run() {
                     profil();
+                    holder.user_movie.setText(user_movie_text);
+                    holder.city.setText(mValues.get(position).city);
+                    holder.date.setText(mValues.get(position).date);
+                    if (!imageURL.isEmpty())
+                        Picasso.with(mContext).load(imageURL).into(holder.image);
                 }
             }, mValues.get(position).week, mValues.get(position).movie);
 
@@ -69,16 +75,15 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
             getUserById(new Runnable() {
                 public void run() {
                     movieProfil();
+                    holder.user_movie.setText(user_movie_text);
+                    holder.city.setText(mValues.get(position).city);
+                    holder.date.setText(mValues.get(position).date);
+                    if (!imageURL.isEmpty())
+                        Picasso.with(mContext).load(imageURL).into(holder.image);
                 }
             }, mValues.get(position).creator);
 
         }
-
-        holder.user_movie.setText(user_movie_text);
-        holder.city.setText(mValues.get(position).city);
-        holder.date.setText(mValues.get(position).date);
-        if (!imageURL.isEmpty())
-            Picasso.with(mContext).load(imageURL).into(holder.image);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

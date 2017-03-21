@@ -156,7 +156,6 @@ public class EventFragment extends Fragment {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot issue : dataSnapshot.getChildren()) {
                         Event event = issue.getValue(Event.class);
-                        Log.d("ANANI ", event.city + " " + event.movie + " " + event.event_id);
                         if (event.movie.equalsIgnoreCase(mExtra2))
                             movie_events.add(event);
                     }
