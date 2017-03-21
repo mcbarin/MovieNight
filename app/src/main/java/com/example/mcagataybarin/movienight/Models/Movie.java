@@ -9,6 +9,10 @@ import java.util.HashMap;
 public class Movie {
     public String date, detail, director, duration, genre, image, title;
 
+    public Movie(){
+        
+    }
+
     public Movie(HashMap<String, String> movie_info) {
         this.date = movie_info.get("date");
         this.detail = movie_info.get("detail");

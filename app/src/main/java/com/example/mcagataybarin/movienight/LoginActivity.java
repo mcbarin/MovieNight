@@ -30,8 +30,11 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -52,9 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         // Load the movies beforehand.  :):):):)
-        String curr = FirebaseFunctions.getInstance().getCurrentWeek();
-        Log.d("ANAN", curr);
-        FirebaseFunctions.getInstance().retrieveMovies();
+        getCurrentWeek();
 
         // For Facebook Authentication
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -91,7 +92,10 @@ public class LoginActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    String user_id = user.getUid();
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user_id);
+                    FirebaseFunctions.getInstance().user_id = user_id;
+
 
                 } else {
                     // User is signed out
@@ -144,6 +148,9 @@ public class LoginActivity extends AppCompatActivity {
 
                                 User new_user = new User(name, email, pp);
                                 mDatabase.child("users").child(UID).setValue(new_user);
+
+                                FirebaseFunctions.getInstance().user_id = UID;
+                                FirebaseFunctions.getInstance().user_pp_url = pp;
 
                             };
 
@@ -202,13 +209,31 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void onClickLogin(View view){
-        EditText email = (EditText) findViewById(R.id.emailField);
-        EditText password = (EditText) findViewById(R.id.passwordField);
+        final EditText email = (EditText) findViewById(R.id.emailField);
+        final EditText password = (EditText) findViewById(R.id.passwordField);
 
-        FirebaseFunctions ff = FirebaseFunctions.getInstance();
 
         signIn(email.getText().toString(), password.getText().toString());
 
+
+    }
+
+
+    public void getCurrentWeek(){
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference movies_reference = mDatabase.child("movies");
+
+        movies_reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                FirebaseFunctions.getInstance().currentWeek = String.valueOf(dataSnapshot.getChildrenCount() - 1);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 
     /*

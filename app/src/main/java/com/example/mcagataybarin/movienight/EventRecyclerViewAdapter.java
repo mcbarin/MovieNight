@@ -12,6 +12,12 @@ import com.example.mcagataybarin.movienight.EventFragment.OnListFragmentInteract
 import com.example.mcagataybarin.movienight.Models.Event;
 import com.example.mcagataybarin.movienight.Models.Movie;
 import com.example.mcagataybarin.movienight.Models.User;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -23,6 +29,12 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
     private final OnListFragmentInteractionListener mListener;
     private Context mContext;
     private String mParent; // movie or profile
+    private DatabaseReference mDatabase;
+    private Movie m;
+    private User user;
+    private String user_movie_text = "";
+    private String imageURL = "";
+
 
     public EventRecyclerViewAdapter(Context context, List<Event> items, String parent, OnListFragmentInteractionListener listener) {
         mContext = context;
@@ -41,21 +53,32 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        String user_movie_text = "";
-        String imageURL = "";
-        if (mParent.equals("profile")){// If parent is MovieFragment
-            Movie m = FirebaseFunctions.getInstance().getMovieByWeekAndIndex(mValues.get(position).week, mValues.get(position).movie);
-            user_movie_text = m.title;
-            imageURL = m.image;
-        }else if(mParent.equals("movie")){
-            User user = FirebaseFunctions.getInstance().getUserById(mValues.get(position).creator);
-            user_movie_text = user.name;
-            imageURL = user.pp_url;
+
+        if (mParent.equals("profile")) {// If parent is MovieFragment
+
+            getMovieByWeekAndIndex(new Runnable() {
+                public void run() {
+                    profil();
+                }
+            }, mValues.get(position).week, mValues.get(position).movie);
+
+            imageURL = FirebaseFunctions.getInstance().user_pp_url;
+
+        } else if (mParent.equals("movie")) {
+
+            getUserById(new Runnable() {
+                public void run() {
+                    movieProfil();
+                }
+            }, mValues.get(position).creator);
+
         }
+
         holder.user_movie.setText(user_movie_text);
         holder.city.setText(mValues.get(position).city);
         holder.date.setText(mValues.get(position).date);
-        Picasso.with(mContext).load(imageURL).into(holder.image);
+        if (!imageURL.isEmpty())
+            Picasso.with(mContext).load(imageURL).into(holder.image);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +90,61 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
                 }
             }
         });
+    }
+
+    // TODO: Implement the query.
+    // Returns the user object by its id.
+    public void getUserById(final Runnable onLoaded, String id) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        DatabaseReference ref = mDatabase.child("users").child(id);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    user = dataSnapshot.getValue(User.class);
+                }
+                onLoaded.run();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+    }
+
+    // TODO: Implement the query.
+    // Returns the movie object by week and index of the movie.
+    public void getMovieByWeekAndIndex(final Runnable onLoaded, String week, String index) {
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        DatabaseReference ref = mDatabase.child("movies").child(week).child(index);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    m = dataSnapshot.getValue(Movie.class);
+                }
+                onLoaded.run();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+    }
+
+
+    public void profil() {
+        user_movie_text = m.title;
+        imageURL = m.image;
+    }
+
+    public void movieProfil(){
+        user_movie_text = user.name;
+        imageURL = user.pp_url;
     }
 
     @Override

@@ -32,9 +32,11 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 class FirebaseFunctions {
     private DatabaseReference mDatabase;
-    private ArrayList<Movie> upcoming_movies = new ArrayList<>();
+    protected ArrayList<Movie> upcoming_movies = new ArrayList<>();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private String currentWeek = "";
+    protected String currentWeek = "";
+    protected String user_id;
+    protected String user_pp_url = "";
     private static final FirebaseFunctions ourInstance = new FirebaseFunctions();
     private Movie movie;
     private User user;
@@ -49,75 +51,6 @@ class FirebaseFunctions {
     private FirebaseFunctions() {
     }
 
-    public ArrayList<Movie> retrieveMovies() {
-
-        if (upcoming_movies.size() == 0) {
-            mDatabase = FirebaseDatabase.getInstance().getReference();
-
-            DatabaseReference movies_reference = mDatabase.child("movies").child("1");
-
-            movies_reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    ArrayList<Object> movies = ((ArrayList<Object>) dataSnapshot.getValue());
-                    for (int i = 0; i < movies.size(); i++) {
-                        Movie movie = new Movie(((HashMap<String, String>) movies.get(i)));
-                        upcoming_movies.add(movie);
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
-        }
-        return this.upcoming_movies;
-    }
-
-    // TODO: Implement the query.
-    // Returns the movie object by week and index of the movie.
-    public Movie getMovieByWeekAndIndex(String week, String index) {
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        DatabaseReference ref = mDatabase.child("movies").child(week).child(index);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    movie = dataSnapshot.getValue(Movie.class);
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-
-        return movie;
-    }
-
-    // TODO: Implement the query.
-    // Returns the user object by its id.
-    public User getUserById(String id) {
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        DatabaseReference ref = mDatabase.child("users").child(id);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    user = dataSnapshot.getValue(User.class);
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-
-        return user;
-    }
 
     // TODO: Implement the query.
     // Returns the events of a user by its id.
@@ -133,8 +66,11 @@ class FirebaseFunctions {
     }
 
     public String getCurrentUserId() {
-        FirebaseUser user = mAuth.getCurrentUser();
-        return user.getUid();
+        return user_id;
+    }
+
+    public String getCurrentUserPp() {
+        return user_pp_url;
     }
 
     public String get_random_id() {
@@ -170,22 +106,8 @@ class FirebaseFunctions {
 
     public String getCurrentWeek() {
 
-        if (currentWeek.isEmpty()) {
-
-            mDatabase = FirebaseDatabase.getInstance().getReference();
-            DatabaseReference movies_reference = mDatabase.child("movies");
-
-            movies_reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    currentWeek = String.valueOf(dataSnapshot.getChildrenCount() - 1);
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            });
-        }
         return currentWeek;
     }
+
+
 }

@@ -16,8 +16,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -39,13 +42,18 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        getCurrentWeek();
+
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    String user_id = user.getUid();
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user_id);
+                    FirebaseFunctions.getInstance().user_id = user_id;
+                    FirebaseFunctions.getInstance().user_pp_url = user.getPhotoUrl().toString();
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -71,16 +79,15 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
-    public void onClickRegister(View view){
+    public void onClickRegister(View view) {
         EditText name = (EditText) findViewById(R.id.nameField);
         EditText email = (EditText) findViewById(R.id.emailRegister);
-        EditText password = (EditText) findViewById(R.id.passwordRegister);
-
+        final EditText password = (EditText) findViewById(R.id.passwordRegister);
         name_s = name.getText().toString();
         email_s = email.getText().toString();
+        updateProfile(name_s);
 
         createUserWithEmailAndPassword(name_s, email_s, password.getText().toString());
-        updateProfile(name_s);
 
         mAuth.signInWithEmailAndPassword(email_s, password.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -95,8 +102,7 @@ public class RegisterActivity extends AppCompatActivity {
                             Log.d(TAG, "signInWithEmail:failed", task.getException());
                             Toast.makeText(RegisterActivity.this, "Oooppss! Try Again.",
                                     Toast.LENGTH_SHORT).show();
-                        }
-                        else {
+                        } else {
                             Intent intent = new Intent(RegisterActivity.this, BottomNavigationActivity.class);
                             RegisterActivity.this.startActivity(intent);
                         }
@@ -104,7 +110,24 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
-    public void createUserWithEmailAndPassword(String name, String email, String password){
+    public void getCurrentWeek() {
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference movies_reference = mDatabase.child("movies");
+
+        movies_reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                FirebaseFunctions.getInstance().currentWeek = String.valueOf(dataSnapshot.getChildrenCount() - 1);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
+    public void createUserWithEmailAndPassword(String name, String email, String password) {
         name_s = name;
         email_s = email;
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -125,12 +148,13 @@ public class RegisterActivity extends AppCompatActivity {
                         String UID = user.getUid();
                         User new_user = new User(name_s, email_s, "");
                         mDatabase.child("users").child(UID).setValue(new_user);
+                        FirebaseFunctions.getInstance().user_id = UID;
 
                     }
                 });
     }
 
-    public void updateProfile(String name){
+    public void updateProfile(String name) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()

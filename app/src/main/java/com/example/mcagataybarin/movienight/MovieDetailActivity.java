@@ -23,7 +23,7 @@ public class MovieDetailActivity extends AppCompatActivity implements EventFragm
         // Get index of which movie to show.
         Intent intent = getIntent();
         int movie_index = intent.getIntExtra("movie_index", 0);
-        movie = FirebaseFunctions.getInstance().retrieveMovies().get(movie_index);
+        movie = FirebaseFunctions.getInstance().upcoming_movies.get(movie_index);
 
         // Get the views from layout by their ids
         ImageView movieImage = (ImageView) findViewById(R.id.imageView);

@@ -99,20 +99,13 @@ public class EventFragment extends Fragment {
             }
 
             if (mParent.equals("profile")) {
-                retrieveMovies(new Runnable() {
+                retrieveUserMovies(new Runnable() {
                     public void run() {
                         recyclerView.setAdapter(new EventRecyclerViewAdapter(getApplicationContext(), movie_events, mParent, mListener));
                     }
                 });
 
-            }
-
-            else {
-//                Movie new_mov = FirebaseFunctions.getInstance().getMovieByWeekAndIndex("1", "4");
-//                Log.d("MOVIEE", new_mov.title);
-//
-//                User user = FirebaseFunctions.getInstance().getUserById("RWmKVrF63rU6u2HQ1U5x4pCv5ak2");
-//                Log.d("USEAA", user.name);
+            } else {
 
                 retrieveMovies(new Runnable() {
                     public void run() {
@@ -126,68 +119,10 @@ public class EventFragment extends Fragment {
 
 
     public void retrieveUserMovies(final Runnable onLoaded) {
-        if (mParent.equalsIgnoreCase("profile")) {
-            movie_events = new ArrayList<>();
-
-            mDatabase = FirebaseDatabase.getInstance().getReference();
-
-            Query query = mDatabase.child("events").orderByChild("creator").equalTo(mExtra1);
-
-            query.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        for (DataSnapshot issue : dataSnapshot.getChildren()) {
-                            Event event = issue.getValue(Event.class);
-                            Log.d("Event ", event.city + " " + event.movie + " " + event.event_id);
-                            movie_events.add(event);
-                        }
-                        onLoaded.run();
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            });
-
-        } else {
-            movie_events = new ArrayList<>();
-
-            mDatabase = FirebaseDatabase.getInstance().getReference();
-
-            Query query = mDatabase.child("events").orderByChild("week").equalTo(mExtra1);
-
-            query.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        for (DataSnapshot issue : dataSnapshot.getChildren()) {
-                            Event event = issue.getValue(Event.class);
-                            Log.d("Event ", event.city + " " + event.movie + " " + event.event_id);
-                            if (event.movie.equalsIgnoreCase(mExtra2))
-                                movie_events.add(event);
-                        }
-                        onLoaded.run();
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            });
-        }
-    }
-
-    ;
-
-
-    public void retrieveMovies(final Runnable onLoaded) {
         movie_events = new ArrayList<>();
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        Query query = mDatabase.child("events").orderByChild("week").equalTo(mExtra1);
+        Query query = mDatabase.child("events").orderByChild("creator").equalTo(mExtra1);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -196,6 +131,32 @@ public class EventFragment extends Fragment {
                     for (DataSnapshot issue : dataSnapshot.getChildren()) {
                         Event event = issue.getValue(Event.class);
                         Log.d("Event ", event.city + " " + event.movie + " " + event.event_id);
+                        movie_events.add(event);
+                    }
+                    onLoaded.run();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+    }
+
+    public void retrieveMovies(final Runnable onLoaded) {
+        movie_events = new ArrayList<>();
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        Query query = mDatabase.child("events").orderByChild("week").equalTo(mExtra1);
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                        Event event = issue.getValue(Event.class);
+                        Log.d("ANANI ", event.city + " " + event.movie + " " + event.event_id);
                         if (event.movie.equalsIgnoreCase(mExtra2))
                             movie_events.add(event);
                     }
@@ -209,38 +170,35 @@ public class EventFragment extends Fragment {
         });
     }
 
-    ;
-
-
-    @Override
-    public void onAttach(Context context) {
+@Override
+public void onAttach(Context context){
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
+        if(context instanceof OnListFragmentInteractionListener){
+        mListener=(OnListFragmentInteractionListener)context;
+        }else{
+        throw new RuntimeException(context.toString()
+        +" must implement OnListFragmentInteractionListener");
         }
-    }
+        }
 
-    @Override
-    public void onDetach() {
+@Override
+public void onDetach(){
         super.onDetach();
-        mListener = null;
-    }
+        mListener=null;
+        }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(Event event);
-    }
+/**
+ * This interface must be implemented by activities that contain this
+ * fragment to allow an interaction in this fragment to be communicated
+ * to the activity and potentially other fragments contained in that
+ * activity.
+ * <p/>
+ * See the Android Training lesson <a href=
+ * "http://developer.android.com/training/basics/fragments/communicating.html"
+ * >Communicating with Other Fragments</a> for more information.
+ */
+public interface OnListFragmentInteractionListener {
+    // TODO: Update argument type and name
+    void onListFragmentInteraction(Event event);
+}
 }

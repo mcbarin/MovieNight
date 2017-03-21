@@ -11,7 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.mcagataybarin.movienight.Models.Movie;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -28,7 +35,9 @@ public class MovieFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
+    private DatabaseReference mDatabase;
     private OnListFragmentInteractionListener mListener;
+    private ArrayList<Movie> upcoming_movies = new ArrayList<>();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -64,18 +73,44 @@ public class MovieFragment extends Fragment {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            final RecyclerView recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            List<Movie> upcoming_movies = FirebaseFunctions.getInstance().retrieveMovies();
-            recyclerView.setAdapter(new MovieRecyclerViewAdapter(getApplicationContext(), upcoming_movies, mListener));
+
+            retrieveMovies(new Runnable() {
+                public void run() {
+                    recyclerView.setAdapter(new MovieRecyclerViewAdapter(getApplicationContext(), upcoming_movies, mListener));
+                }
+            });
+
         }
         return view;
     }
 
+    public void retrieveMovies(final Runnable onLoaded) {
+            mDatabase = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference movies_reference = mDatabase.child("movies").child(FirebaseFunctions.getInstance().currentWeek);
+            movies_reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    ArrayList<Object> movies = ((ArrayList<Object>) dataSnapshot.getValue());
+                    for (int i = 0; i < movies.size(); i++) {
+                        Movie movie = new Movie(((HashMap<String, String>) movies.get(i)));
+                        upcoming_movies.add(movie);
+                    }
+                    FirebaseFunctions.getInstance().upcoming_movies = upcoming_movies;
+                    onLoaded.run();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+    }
 
     @Override
     public void onAttach(Context context) {
