@@ -24,7 +24,7 @@
             android:textColor="@android:color/black"
             android:layout_toRightOf="@+id/eventImage"
             android:layout_marginTop="10dp"
-            android:text="adASdasdASDasd"/>
+            />
 
 
         <TextView
@@ -47,7 +47,7 @@
             android:layout_toRightOf="@+id/cityLabel"
             android:layout_below="@+id/user_movie"
             android:layout_marginTop="5dp"
-            android:text="adASdasdASDasd"/>
+            />
 
 
         <TextView
@@ -71,7 +71,7 @@
             android:layout_toRightOf="@+id/eventDateLabel"
             android:layout_below="@+id/city"
             android:layout_marginTop="5dp"
-            android:text="adASdasdASDasd"/>
+            />
     </RelativeLayout>
 
 </LinearLayout>

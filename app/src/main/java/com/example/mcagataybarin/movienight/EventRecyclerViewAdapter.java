@@ -1,6 +1,7 @@
 package com.example.mcagataybarin.movienight;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -57,8 +58,9 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
 
         if (mParent.equals("profile")) {// If parent is MovieFragment
 
-            getMovieByWeekAndIndex(new Runnable() {
+            FirebaseFunctions.getInstance().getMovieByWeekAndIndex(new Runnable() {
                 public void run() {
+                    m = FirebaseFunctions.getInstance().temp_movie;
                     profil();
                     holder.user_movie.setText(user_movie_text);
                     holder.city.setText(mValues.get(position).city);
@@ -72,8 +74,9 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
 
         } else if (mParent.equals("movie")) {
 
-            getUserById(new Runnable() {
+            FirebaseFunctions.getInstance().getUserById(new Runnable() {
                 public void run() {
+                    user = FirebaseFunctions.getInstance().temp_user;
                     movieProfil();
                     holder.user_movie.setText(user_movie_text);
                     holder.city.setText(mValues.get(position).city);
@@ -92,55 +95,16 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
                     mListener.onListFragmentInteraction(holder.mItem);
+
+                    // Event Clicked
+                    Intent intent = new Intent(mContext, EventDetailActivity.class);
+                    intent.putExtra("event_id", holder.mItem.event_id);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(intent);
                 }
             }
         });
     }
-
-    // TODO: Implement the query.
-    // Returns the user object by its id.
-    public void getUserById(final Runnable onLoaded, String id) {
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        DatabaseReference ref = mDatabase.child("users").child(id);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    user = dataSnapshot.getValue(User.class);
-                }
-                onLoaded.run();
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-
-    }
-
-    // TODO: Implement the query.
-    // Returns the movie object by week and index of the movie.
-    public void getMovieByWeekAndIndex(final Runnable onLoaded, String week, String index) {
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        DatabaseReference ref = mDatabase.child("movies").child(week).child(index);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    m = dataSnapshot.getValue(Movie.class);
-                }
-                onLoaded.run();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-
-    }
-
 
     public void profil() {
         user_movie_text = m.title;
