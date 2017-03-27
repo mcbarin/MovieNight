@@ -38,9 +38,9 @@ class FirebaseFunctions {
     protected String user_id;
     protected String user_pp_url = "";
     private static final FirebaseFunctions ourInstance = new FirebaseFunctions();
-    private Movie movie;
-    private User user;
-
+    public Movie temp_movie;
+    public User temp_user;
+    public Event temp_event;
     private TaskCompletionSource<DataSnapshot> dbSource = new TaskCompletionSource<>();
     private Task dbTask = dbSource.getTask();
 
@@ -109,5 +109,66 @@ class FirebaseFunctions {
         return currentWeek;
     }
 
+    // Returns the movie object by week and index of the movie.
+    public void getMovieByWeekAndIndex(final Runnable onLoaded, String week, String index) {
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        DatabaseReference ref = mDatabase.child("movies").child(week).child(index);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    temp_movie = dataSnapshot.getValue(Movie.class);
+
+                }
+                onLoaded.run();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+    }
+
+    // Returns the user object by its id.
+    public void getUserById(final Runnable onLoaded, String id) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        DatabaseReference ref = mDatabase.child("users").child(id);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    temp_user = dataSnapshot.getValue(User.class);
+                }
+                onLoaded.run();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+    }
+
+    public void getEventById(final Runnable onLoaded, String event_id){
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        DatabaseReference ref = mDatabase.child("events").child(event_id);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    temp_event = dataSnapshot.getValue(Event.class);
+                }
+                onLoaded.run();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 }
