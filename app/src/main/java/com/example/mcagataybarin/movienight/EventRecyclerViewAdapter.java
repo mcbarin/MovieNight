@@ -22,6 +22,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import junit.framework.Test;
+
 import java.util.List;
 
 
@@ -67,6 +69,8 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
                     holder.date.setText(mValues.get(position).date);
                     if (!imageURL.isEmpty())
                         Picasso.with(mContext).load(imageURL).into(holder.image);
+                    holder.cityLabel.setText("Şehir: ");
+                    holder.dateLabel.setText("Tarih: ");
                 }
             }, mValues.get(position).week, mValues.get(position).movie);
 
@@ -126,6 +130,8 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
         public final TextView user_movie;
         public final TextView city;
         public final TextView date;
+        public final TextView dateLabel;
+        public final TextView cityLabel;
         public final ImageView image;
         public Event mItem;
 
@@ -136,6 +142,8 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
             city = (TextView) view.findViewById(R.id.city);
             date = (TextView) view.findViewById(R.id.date);
             image = (ImageView) view.findViewById(R.id.eventImage);
+            dateLabel = (TextView) view.findViewById(R.id.eventDateLabel);
+            cityLabel = (TextView) view.findViewById(R.id.cityLabel);
         }
 
         @Override
