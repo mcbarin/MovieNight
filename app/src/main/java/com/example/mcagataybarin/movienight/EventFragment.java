@@ -47,7 +47,7 @@ public class EventFragment extends Fragment {
     * If parent is profile, extra-1 is user id. extra-2 will be empty and not used.
     * */
 
-    private String mParent = "movie"; // movie or profile
+    private String mParent = ""; // movie or profile
     private int mColumnCount = 1;
     private String mExtra1 = "";
     private String mExtra2 = "";
@@ -130,7 +130,7 @@ public class EventFragment extends Fragment {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot issue : dataSnapshot.getChildren()) {
                         Event event = issue.getValue(Event.class);
-                        Log.d("Event ", event.city + " " + event.movie + " " + event.event_id);
+//                        Log.d("Event ", event.city + " " + event.movie + " " + event.event_id);
                         movie_events.add(event);
                     }
                     onLoaded.run();
