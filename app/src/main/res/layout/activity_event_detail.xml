@@ -14,12 +14,12 @@
         tools:layout_editor_absoluteY="0dp">
 
         <TextView
+            android:id="@+id/eventDetailTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:text="EVENT DETAILS"
             android:textColor="@android:color/white"
             android:textSize="20dp" />
 
@@ -40,7 +40,6 @@
             android:layout_alignTop="@+id/eventMovieImage"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@+id/eventMovieImage"
-            android:text="Movie?"
             android:textColor="@android:color/white"
             android:textSize="20dp"
             android:textStyle="italic"
@@ -50,7 +49,6 @@
             android:id="@+id/eventMovieName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Recep Ivedik"
             android:textColor="@android:color/white"
             android:textSize="20dp"
             android:layout_toRightOf="@+id/eventMovieLabel"
@@ -67,7 +65,6 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/eventMovieImage"
-            android:text="Where? "
             android:textColor="@android:color/white"
             android:textSize="20dp"
             android:textStyle="italic"/>
@@ -76,7 +73,6 @@
             android:id="@+id/eventCityName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Istanbul"
             android:textColor="@android:color/white"
             android:textSize="20dp"
             android:layout_below="@+id/eventMovieLabel"
@@ -89,7 +85,6 @@
             android:id="@+id/eventDateLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="When?"
             android:textColor="@android:color/white"
             android:textSize="20dp"
             android:textStyle="italic"
@@ -103,7 +98,6 @@
             android:id="@+id/eventDateName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="25.12.2039"
             android:textColor="@android:color/white"
             android:textSize="20dp"
             android:layout_below="@+id/eventCityName"
@@ -117,7 +111,6 @@
             android:id="@+id/eventUsersLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="WHO'RE GOING?"
             android:textSize="20dp"
             android:textColor="@android:color/white"
             android:layout_centerHorizontal="true"

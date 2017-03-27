@@ -99,7 +99,7 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
                     mListener.onListFragmentInteraction(holder.mItem);
-
+                    Log.i("EVENTID111", holder.mItem.event_id);
                     // Event Clicked
                     Intent intent = new Intent(mContext, EventDetailActivity.class);
                     intent.putExtra("event_id", holder.mItem.event_id);
