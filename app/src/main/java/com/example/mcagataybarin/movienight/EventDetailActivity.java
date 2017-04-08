@@ -9,16 +9,10 @@ import android.widget.TextView;
 
 import com.example.mcagataybarin.movienight.Models.Event;
 import com.example.mcagataybarin.movienight.Models.Movie;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
+public class EventDetailActivity extends AppCompatActivity implements UserListFragment.OnListFragmentInteractionListener {
 
-public class EventDetailActivity extends AppCompatActivity {
-
-    private DatabaseReference mDatabase;
     Event event;
     Movie movie;
 
@@ -39,13 +33,16 @@ public class EventDetailActivity extends AppCompatActivity {
             @Override
             public void run() {
                 event = FirebaseFunctions.getInstance().temp_event;
+
+                // Show the User List.
+                UserListFragment fragment = UserListFragment.newInstance();
+                android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.add(R.id.eventUsersList, fragment).commit();
+
                 // Now we have the event info. retrieve movie info
                 getMovieInfo(event.week, event.movie);
             }
         }, event_id);
-
-
-
 
     }
 
@@ -80,5 +77,10 @@ public class EventDetailActivity extends AppCompatActivity {
         dateLabel.setText("When? ");
         dateName.setText(event.date);
         usersLabel.setText("WHO'S GOING? ");
+    }
+
+    @Override
+    public void onListFragmentInteraction(String item) {
+
     }
 }
