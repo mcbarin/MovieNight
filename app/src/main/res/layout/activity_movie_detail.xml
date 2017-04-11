@@ -122,6 +122,19 @@
             android:layout_marginLeft="4sp"
             />
 
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:onClick="addEvent"
+            android:text="Create an Event"
+            android:textColor="#fff"
+            android:layout_above="@+id/eventFragment"
+            android:layout_alignStart="@+id/directorLabel"
+            android:layout_marginBottom="10dp" />
+
+
+
         <FrameLayout
             android:id="@+id/eventFragment"
             android:layout_width="match_parent"
@@ -131,6 +144,9 @@
             android:layout_marginTop="4dp">
 
         </FrameLayout>
+
+
+
 
     </RelativeLayout>
 

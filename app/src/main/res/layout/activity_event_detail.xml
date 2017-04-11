@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bestPurple"
+    android:background="#FFCDD2"
     tools:context="com.example.mcagataybarin.movienight.EventDetailActivity">
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="368dp"
         android:layout_height="wrap_content"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="0dp">

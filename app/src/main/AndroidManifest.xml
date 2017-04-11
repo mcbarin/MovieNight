@@ -45,7 +45,8 @@
             android:name=".BottomNavigationActivity"
             android:label="@string/title_activity_bottom_navigation" />
         <activity android:name=".MovieDetailActivity" />
-        <activity android:name=".EventDetailActivity"></activity>
+        <activity android:name=".EventDetailActivity" />
+        <activity android:name=".EventCreate"></activity>
     </application>
 
 </manifest>

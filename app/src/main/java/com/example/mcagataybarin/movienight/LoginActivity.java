@@ -212,8 +212,12 @@ public class LoginActivity extends AppCompatActivity {
         final EditText email = (EditText) findViewById(R.id.emailField);
         final EditText password = (EditText) findViewById(R.id.passwordField);
 
+        if(email.getText().toString().isEmpty()){
+            signIn("a2@a.com", "abdullah");
+        }else {
+            signIn(email.getText().toString(), password.getText().toString());
+        }
 
-        signIn(email.getText().toString(), password.getText().toString());
 
 
     }

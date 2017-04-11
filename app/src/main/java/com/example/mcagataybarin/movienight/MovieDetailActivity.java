@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import com.squareup.picasso.Picasso;
 
 public class MovieDetailActivity extends AppCompatActivity implements EventFragment.OnListFragmentInteractionListener {
     private Movie movie;
+    private int movie_index;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +24,7 @@ public class MovieDetailActivity extends AppCompatActivity implements EventFragm
 
         // Get index of which movie to show.
         Intent intent = getIntent();
-        int movie_index = intent.getIntExtra("movie_index", 0);
+        movie_index = intent.getIntExtra("movie_index", 0);
         movie = FirebaseFunctions.getInstance().upcoming_movies.get(movie_index);
 
         // Get the views from layout by their ids
@@ -47,6 +49,13 @@ public class MovieDetailActivity extends AppCompatActivity implements EventFragm
         transaction.add(R.id.eventFragment, eventFragment);
         transaction.commit();
 
+
+    }
+
+    public void addEvent(View view){
+        Intent intent = new Intent(this, EventCreate.class);
+        intent.putExtra("movie_id", movie_index);
+        startActivity(intent);
 
     }
 

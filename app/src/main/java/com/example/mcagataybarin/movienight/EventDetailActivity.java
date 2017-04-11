@@ -33,7 +33,6 @@ public class EventDetailActivity extends AppCompatActivity implements UserListFr
             @Override
             public void run() {
                 event = FirebaseFunctions.getInstance().temp_event;
-
                 // Show the User List.
                 UserListFragment fragment = UserListFragment.newInstance();
                 android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
