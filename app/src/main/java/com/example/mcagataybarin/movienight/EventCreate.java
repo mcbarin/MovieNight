@@ -21,7 +21,7 @@ import java.text.DateFormatSymbols;
 import java.util.Calendar;
 
 @SuppressWarnings("deprecation")
-public class EventCreate extends AppCompatActivity  {
+public class EventCreate extends AppCompatActivity {
 
     Event event;
     Movie movie;
@@ -31,6 +31,7 @@ public class EventCreate extends AppCompatActivity  {
     private DatePicker datePicker;
     private Spinner city;
     private Calendar calendar;
+    private int movie_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,9 @@ public class EventCreate extends AppCompatActivity  {
         setContentView(R.layout.activity_event_create);
 
         Intent intent = getIntent();
-        movie_index = String.valueOf(intent.getIntExtra("movie_index", 0));
+
+        movie_id = intent.getIntExtra("movie_id", 0);
+        movie_index = String.valueOf(movie_id);
         city = (Spinner) findViewById(R.id.city);
 
         dateView = (TextView) findViewById(R.id.dateView);
@@ -46,12 +49,11 @@ public class EventCreate extends AppCompatActivity  {
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH) + 1;
         day = calendar.get(Calendar.DAY_OF_MONTH);
-        System.out.println("MONTH IS : "+ String.valueOf(month));
         showDate();
 
     }
 
-    public void createEvent(View view){
+    public void createEvent(View view) {
         // create a new event object and save to firebase
         String city_name = String.valueOf(city.getSelectedItem());
 
@@ -66,6 +68,12 @@ public class EventCreate extends AppCompatActivity  {
         new_ev.hour = "8";
         new_ev.min = "00";
         FirebaseFunctions.getInstance().postEvent(new_ev);
+
+
+        Intent intent = new Intent(this, MovieDetailActivity.class);
+        intent.putExtra("movie_index", movie_id);
+        startActivity(intent);
+
 
         //System.out.println("VAlues are: " + city_name + " month " + month + " day " + day + " year " + year);
 
@@ -98,7 +106,7 @@ public class EventCreate extends AppCompatActivity  {
                     // arg2 = month
                     // arg3 = day
                     year = arg1;
-                    month = arg2+1;
+                    month = arg2 + 1;
                     day = arg3;
                     showDate();
                 }
@@ -106,9 +114,10 @@ public class EventCreate extends AppCompatActivity  {
 
     String getMonthForInt(int num) {
         String month = "wrong";
+        num--;
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getMonths();
-        if (num >= 0 && num <= 11 ) {
+        if (num >= 0 && num <= 11) {
             month = months[num];
         }
         return month;

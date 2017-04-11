@@ -18,58 +18,53 @@
         android:textSize="40sp"
         android:typeface="serif" />
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select a City"
+        android:textColor="#ce3232"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp" />
+
     <Spinner
         android:id="@+id/city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:entries="@array/city_names"
-         />
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:entries="@array/city_names" />
 
-    <EditText
-        android:layout_width="fill_parent"
+
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:hint="Name"
-        android:inputType="textPersonName" />
+        android:text="Pick a Date"
+        android:textColor="#ce3232"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:textSize="15sp" />
 
-    <EditText
-        android:layout_width="fill_parent"
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:onClick="setDate"
+        android:text="Date" />
+
+    <TextView
+        android:id="@+id/dateView"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:hint="Email"
-        android:inputType="textEmailAddress" />
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:hint="Phone"
-        android:inputType="phone" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:onClick="setDate"
-            android:text="Date" />
-
-        <TextView
-            android:id="@+id/dateView"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignRight="@+id/button1"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-    </RelativeLayout>
-
-
+        android:layout_alignParentRight="true"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
         android:layout_width="wrap_content"
@@ -77,6 +72,8 @@
         android:layout_gravity="center_horizontal"
         android:background="@color/colorPrimaryDark"
         android:elevation="4dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:onClick="createEvent"
         android:paddingLeft="70dp"
         android:paddingRight="70dp"
