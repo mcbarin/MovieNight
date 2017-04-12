@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -10,8 +12,8 @@
 
         <ImageView
             android:id="@+id/eventImage"
-            android:layout_width="80dp"
-            android:layout_height="110dp"
+            android:layout_width="70dp"
+            android:layout_height="100dp"
             android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"/>
 
@@ -19,56 +21,62 @@
             android:id="@+id/user_movie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
             android:textAppearance="?attr/textAppearanceListItem"
-            android:textColor="@android:color/black"
+            android:textColor="@color/white"
             android:layout_toRightOf="@+id/eventImage"
-            android:layout_marginTop="10dp"
+            android:layout_alignTop="@+id/eventImage"
+            android:layout_marginLeft="20dp"
+            android:textStyle="bold|italic"
+            android:textSize="20sp"
             />
-
 
         <TextView
             android:id="@+id/cityLabel"
             android:layout_width="wrap_content"
-            android:layout_height="18sp"
-            android:layout_margin="@dimen/text_margin"
+            android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/eventImage"
             android:layout_below="@+id/user_movie"
-            android:textColor="@android:color/black"
-            android:layout_marginTop="5dp"/>
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:textSize="18sp"
+            />
+
         <TextView
             android:id="@+id/city"
             android:layout_width="wrap_content"
-            android:layout_height="18sp"
-            android:layout_margin="@dimen/text_margin"
+            android:layout_height="wrap_content"
             android:textAppearance="?attr/textAppearanceListItem"
-            android:textColor="@android:color/black"
+            android:textColor="@color/white"
             android:layout_toRightOf="@+id/cityLabel"
-            android:layout_below="@+id/user_movie"
-            android:layout_marginTop="5dp"
+            android:layout_alignBottom="@+id/cityLabel"
+            android:layout_marginLeft="10dp"
+            android:textSize="18sp"
             />
 
 
         <TextView
             android:id="@+id/eventDateLabel"
             android:layout_width="wrap_content"
-            android:layout_height="18sp"
-            android:layout_margin="@dimen/text_margin"
+            android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/eventImage"
             android:layout_below="@+id/cityLabel"
-            android:textColor="@android:color/black"
-            android:layout_marginTop="5dp"/>
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:textSize="18sp"
+            />
 
         <TextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
-            android:layout_height="18sp"
-            android:textColor="@android:color/black"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:textAppearance="?attr/textAppearanceListItem"
-            android:layout_margin="@dimen/text_margin"
             android:layout_toRightOf="@+id/eventDateLabel"
-            android:layout_below="@+id/city"
-            android:layout_marginTop="5dp"
+            android:layout_alignBottom="@id/eventDateLabel"
+            android:layout_marginLeft="10dp"
+            android:textSize="18sp"
             />
     </RelativeLayout>
 

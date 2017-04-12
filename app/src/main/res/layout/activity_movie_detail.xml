@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.mcagataybarin.movienight.MovieDetailActivity">
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="0dp">
+    tools:context="com.example.mcagataybarin.movienight.MovieDetailActivity"
+    android:background="@color/blueishPurple">
 
         <ImageView
             android:id="@+id/imageView"
@@ -31,7 +26,7 @@
             android:text="movie"
             android:textAlignment="viewStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@android:color/black"
+            android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_toRightOf="@id/imageView"
@@ -45,7 +40,7 @@
             android:layout_width="35dp"
             android:layout_height="18dp"
             android:text="Tür:"
-            android:textColor="@android:color/black"
+            android:textColor="@color/white"
             android:textSize="14sp"
             tools:layout_editor_absoluteX="188dp"
             tools:layout_editor_absoluteY="62dp"
@@ -60,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="18dp"
             android:text="Komedi"
-            android:textColor="@android:color/black"
+            android:textColor="@color/white"
             tools:layout_editor_absoluteX="238dp"
             tools:layout_editor_absoluteY="62dp"
             android:layout_below="@+id/movieName"
@@ -74,7 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="18dp"
             android:text="Vizyon Tarihi:"
-            android:textColor="@android:color/black"
+            android:textColor="@color/white"
             android:textSize="14sp"
             android:layout_toRightOf="@+id/imageView"
             android:layout_below="@+id/genreLabel"
@@ -91,7 +86,7 @@
             android:layout_below="@+id/genreLabel"
             android:layout_marginTop="12dp"
             android:layout_toRightOf="@+id/dateLabel"
-            android:textColor="@android:color/black"
+            android:textColor="@color/white"
             android:layout_marginLeft="4sp"
             />
 
@@ -101,7 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="18dp"
             android:text="Yönetmen:"
-            android:textColor="@android:color/black"
+            android:textColor="@color/white"
             android:textSize="14sp"
             android:layout_toRightOf="@+id/imageView"
             android:layout_below="@+id/dateLabel"
@@ -118,7 +113,7 @@
             android:layout_below="@+id/dateLabel"
             android:layout_marginTop="12dp"
             android:layout_toRightOf="@+id/directorLabel"
-            android:textColor="@android:color/black"
+            android:textColor="@color/white"
             android:layout_marginLeft="4sp"
             />
 
@@ -128,28 +123,35 @@
             android:background="@color/colorPrimaryDark"
             android:onClick="addEvent"
             android:text="Create an Event"
-            android:textColor="#fff"
+            android:textColor="@color/white"
             android:layout_above="@+id/eventFragment"
             android:layout_alignStart="@+id/directorLabel"
-            android:layout_marginBottom="10dp" />
+            android:layout_alignBottom="@id/imageView"/>
 
-
+        <TextView
+            android:id="@+id/user_events_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textColor="@color/bestPurple"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/imageView"
+            android:layout_marginTop="10dp"
+            android:text="EVENTS"
+            android:background="@drawable/rounded_rectangle"
+            android:backgroundTint="@color/white"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textStyle="bold"/>
 
         <FrameLayout
             android:id="@+id/eventFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
-            android:layout_below="@+id/imageView"
+            android:layout_below="@+id/user_events_label"
             android:layout_marginTop="4dp">
 
         </FrameLayout>
 
-
-
-
-    </RelativeLayout>
-
-
-
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

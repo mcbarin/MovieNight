@@ -53,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
                     String user_id = user.getUid();
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user_id);
                     FirebaseFunctions.getInstance().user_id = user_id;
-                    FirebaseFunctions.getInstance().user_pp_url = user.getPhotoUrl().toString();
+//                    FirebaseFunctions.getInstance().user_pp_url = user.getPhotoUrl().toString();
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
