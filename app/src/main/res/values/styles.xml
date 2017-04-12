@@ -23,12 +23,12 @@
     <style name="spinnerItemStyle">
         <item name="android:padding">10dp</item>
         <item name="android:textSize">23sp</item>
-        <item name="android:textColor">#FFFFBA</item>
+        <item name="android:textColor">@color/lightPurple</item>
     </style>
 
     <style name="spinnerDropDownItemStyle">
         <item name="android:padding">20dp</item>
         <item name="android:textSize">30sp</item>
-        <item name="android:textColor">#FFFFBA</item>
+        <item name="android:textColor">@color/lightPurple</item>
     </style>
 </resources>
