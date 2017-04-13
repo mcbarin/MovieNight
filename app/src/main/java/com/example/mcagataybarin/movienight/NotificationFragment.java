@@ -1,6 +1,7 @@
 package com.example.mcagataybarin.movienight;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -199,7 +200,15 @@ public class NotificationFragment extends Fragment {
 
                 }
             });
-            //mainViewholder.title.setText(getItem(position));
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), ProfileActivity.class);
+                    intent.putExtra("UID", getItem(position).request);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    getContext().startActivity(intent);
+                }
+            });
 
             return convertView;
         }
