@@ -140,7 +140,7 @@ public class NotificationFragment extends Fragment {
                             } else{
                                 Picasso.with(getContext()).load(R.drawable.com_facebook_button_icon_white).into(viewHolder.thumbnail);
                             }
-                            viewHolder.title.setText(user_read.name + "\nCity: " + getItem(position).event.city + " \nHour: " +getItem(position).event.hour);
+                            viewHolder.title.setText(user_read.name + "\nCity: " + getItem(position).event.city + " \nTime: " +getItem(position).event.time);
                         }
                     }
 

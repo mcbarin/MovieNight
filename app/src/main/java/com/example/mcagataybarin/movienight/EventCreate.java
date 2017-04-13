@@ -29,9 +29,9 @@ public class EventCreate extends AppCompatActivity {
     Movie movie;
     private String movie_index = "";
     private int year, month, day;
-    private TextView dateView;
+    private TextView dateView, description;
     private DatePicker datePicker;
-    private Spinner city;
+    private Spinner city, hour, minute;
     private Calendar calendar;
     private int movie_id;
 
@@ -51,6 +51,11 @@ public class EventCreate extends AppCompatActivity {
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH) + 1;
         day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        description = (TextView) findViewById(R.id.eventDescription);
+        hour = (Spinner) findViewById(R.id.timeHour);
+        minute = (Spinner) findViewById(R.id.timeMin);
+
         showDate();
 
     }
@@ -68,19 +73,20 @@ public class EventCreate extends AppCompatActivity {
 
         String month_name = getMonthForInt(month);
 
-        String date = day + " " + month_name + " " + year;
-        new_ev.date = date;
-        new_ev.hour = "8";
-        new_ev.min = "00";
+        new_ev.date = day + " " + month_name + " " + year;
+
+        String hourText = String.valueOf(hour.getSelectedItem());
+        String minText = String.valueOf(minute.getSelectedItem());
+        new_ev.time = hourText + ":" + minText;
+
+        new_ev.description = description.getText().toString();
+
         FirebaseFunctions.getInstance().postEvent(new_ev);
 
 
         Intent intent = new Intent(this, MovieDetailActivity.class);
         intent.putExtra("movie_index", movie_id);
         startActivity(intent);
-
-
-        //System.out.println("VAlues are: " + city_name + " month " + month + " day " + day + " year " + year);
 
     }
 
@@ -93,7 +99,6 @@ public class EventCreate extends AppCompatActivity {
 
     @Override
     protected Dialog onCreateDialog(int id) {
-        // TODO Auto-generated method stub
         if (id == 999) {
             return new DatePickerDialog(this,
                     myDateListener, year, month, day);
@@ -106,10 +111,6 @@ public class EventCreate extends AppCompatActivity {
                 @Override
                 public void onDateSet(DatePicker arg0,
                                       int arg1, int arg2, int arg3) {
-                    // TODO Auto-generated method stub
-                    // arg1 = year
-                    // arg2 = month
-                    // arg3 = day
                     year = arg1;
                     month = arg2 + 1;
                     day = arg3;

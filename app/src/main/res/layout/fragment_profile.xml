@@ -14,7 +14,6 @@
             android:layout_below="@+id/user_profile_photo"
             android:layout_marginTop="10dp"
             android:padding="10dp"
-            android:text="UserName"
             android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold"

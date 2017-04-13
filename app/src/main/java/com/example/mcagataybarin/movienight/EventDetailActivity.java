@@ -16,6 +16,8 @@ import com.example.mcagataybarin.movienight.Models.Event;
 import com.example.mcagataybarin.movienight.Models.Movie;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class EventDetailActivity extends AppCompatActivity implements UserListFragment.OnListFragmentInteractionListener {
@@ -73,6 +75,8 @@ public class EventDetailActivity extends AppCompatActivity implements UserListFr
         TextView dateLabel = (TextView) findViewById(R.id.eventDateLabel);
         TextView dateName = (TextView) findViewById(R.id.eventDateName);
         TextView usersLabel = (TextView) findViewById(R.id.eventUsersLabel);
+        TextView descLabel = (TextView) findViewById(R.id.eventDescriptionLabel);
+        TextView descName = (TextView) findViewById(R.id.eventDescriptionName);
         Button reqbutton = (Button) findViewById(R.id.reqButton);
 
         eventDetailTitle.setText("EVENT DETAILS");
@@ -82,7 +86,9 @@ public class EventDetailActivity extends AppCompatActivity implements UserListFr
         cityLabel.setText("City? ");
         cityName.setText(event.city);
         dateLabel.setText("When? ");
-        dateName.setText(event.date);
+        dateName.setText(event.date + " " + event.time);
+        descLabel.setText("Info?");
+        descName.setText(event.description);
         usersLabel.setText("WHO'S GOING? ");
         if(!event.creator.equalsIgnoreCase(FirebaseFunctions.getInstance().user_id)) {
             reqbutton.setVisibility(View.VISIBLE);
