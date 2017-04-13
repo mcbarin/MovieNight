@@ -2,7 +2,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/blueishPurple"
     tools:context="com.example.mcagataybarin.movienight.NotificationFragment">
 
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/notif"
+        android:layout_height="wrap_content"
+        android:text= "No Notifications"
+        android:textColor="@color/blueBg"
+        android:textSize="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:visibility="invisible"
+        />
 
 </FrameLayout>

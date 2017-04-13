@@ -52,7 +52,11 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerVi
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user_read = dataSnapshot.getValue(User.class);
                 if(!(user_read == null)) {
-                    Picasso.with(context).load(user_read.pp_url).into(holder.userImage);
+                    if(!user_read.pp_url.isEmpty()){
+                        Picasso.with(context).load(user_read.pp_url).into(holder.userImage);
+                    } else{
+                        Picasso.with(context).load(R.drawable.com_facebook_button_icon_white).into(holder.userImage);
+                    }
                     holder.userName.setText(user_read.name);
 
                     if (position == 0)
@@ -65,13 +69,6 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerVi
 
             }
         });
-
-
-
-
-
-
-
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

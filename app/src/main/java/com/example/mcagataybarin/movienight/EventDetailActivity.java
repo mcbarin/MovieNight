@@ -4,12 +4,18 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mcagataybarin.movienight.Models.Event;
 import com.example.mcagataybarin.movienight.Models.Movie;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class EventDetailActivity extends AppCompatActivity implements UserListFragment.OnListFragmentInteractionListener {
 
@@ -66,6 +72,7 @@ public class EventDetailActivity extends AppCompatActivity implements UserListFr
         TextView dateLabel = (TextView) findViewById(R.id.eventDateLabel);
         TextView dateName = (TextView) findViewById(R.id.eventDateName);
         TextView usersLabel = (TextView) findViewById(R.id.eventUsersLabel);
+        Button reqbutton = (Button) findViewById(R.id.reqButton);
 
         eventDetailTitle.setText("EVENT DETAILS");
         movieLabel.setText("Movie? ");
@@ -76,6 +83,20 @@ public class EventDetailActivity extends AppCompatActivity implements UserListFr
         dateLabel.setText("When? ");
         dateName.setText(event.date);
         usersLabel.setText("WHO'S GOING? ");
+        if(!event.creator.equalsIgnoreCase(FirebaseFunctions.getInstance().user_id)) {
+            reqbutton.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void requestJoin(View view){
+        Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
+        view.startAnimation(shake);
+        Event temp = event;
+        if(temp.requests == null){
+            temp.requests = new ArrayList<String>();
+        }
+        temp.requests.add(FirebaseFunctions.getInstance().user_id);
+        FirebaseFunctions.getInstance().postEventDirect(temp);
     }
 
     @Override

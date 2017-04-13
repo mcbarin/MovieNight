@@ -41,6 +41,7 @@ class FirebaseFunctions {
     public Movie temp_movie;
     public User temp_user;
     public Event temp_event;
+    public ArrayList<Event> movie_events = new ArrayList<>();
     private TaskCompletionSource<DataSnapshot> dbSource = new TaskCompletionSource<>();
     private Task dbTask = dbSource.getTask();
 
@@ -170,5 +171,10 @@ class FirebaseFunctions {
 
             }
         });
+    }
+
+    public void postEventDirect(Event temp) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("events").child(temp.event_id).setValue(temp);
     }
 }

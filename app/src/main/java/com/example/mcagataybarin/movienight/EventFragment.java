@@ -97,11 +97,16 @@ public class EventFragment extends Fragment {
             }
 
             if (mParent.equals("profile")) {
-                retrieveUserMovies(new Runnable() {
-                    public void run() {
-                        recyclerView.setAdapter(new EventRecyclerViewAdapter(getApplicationContext(), movie_events, mParent, mListener));
-                    }
-                });
+                if(FirebaseFunctions.getInstance().movie_events.isEmpty()) {
+                    retrieveUserMovies(new Runnable() {
+                        public void run() {
+                            recyclerView.setAdapter(new EventRecyclerViewAdapter(getApplicationContext(), movie_events, mParent, mListener));
+                        }
+                    });
+                } else{
+                    movie_events = FirebaseFunctions.getInstance().movie_events;
+                    recyclerView.setAdapter(new EventRecyclerViewAdapter(getApplicationContext(), movie_events, mParent, mListener));
+                }
 
             } else {
 
@@ -131,6 +136,7 @@ public class EventFragment extends Fragment {
 //                        Log.d("Event ", event.city + " " + event.movie + " " + event.event_id);
                         movie_events.add(event);
                     }
+                    FirebaseFunctions.getInstance().movie_events = movie_events;
                     onLoaded.run();
                 }
             }

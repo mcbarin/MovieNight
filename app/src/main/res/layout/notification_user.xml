@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    android:background="@color/blueishPurple">
+
+    <ImageView
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:id="@+id/list_item_thumbnail"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+         />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="15dp"
+        android:textColor="@color/lightPurple"
+        android:text="asdfkaskdfksadf"
+        android:id="@+id/list_item_text"
+        android:layout_alignTop="@+id/list_item_btn"
+        android:layout_toEndOf="@+id/list_item_thumbnail" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirm"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button"
+        android:textColor="@color/colorAccent"
+        android:id="@+id/list_item_btn"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/list_item_btn2" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ignore"
+        android:background="@drawable/button"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/lightPurple"
+        android:id="@+id/list_item_btn2"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

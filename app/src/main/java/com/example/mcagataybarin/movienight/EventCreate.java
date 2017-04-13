@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -55,6 +57,9 @@ public class EventCreate extends AppCompatActivity {
 
     public void createEvent(View view) {
         // create a new event object and save to firebase
+        Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
+        view.startAnimation(shake);
+
         String city_name = String.valueOf(city.getSelectedItem());
 
         Event new_ev = new Event();

@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -53,6 +55,8 @@ public class MovieDetailActivity extends AppCompatActivity implements EventFragm
     }
 
     public void addEvent(View view){
+        Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
+        view.startAnimation(shake);
         Intent intent = new Intent(this, EventCreate.class);
         intent.putExtra("movie_id", movie_index);
         startActivity(intent);
