@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mcagataybarin.movienight.Models.Event;
 import com.example.mcagataybarin.movienight.Models.Movie;
@@ -97,6 +98,8 @@ public class EventDetailActivity extends AppCompatActivity implements UserListFr
         }
         temp.requests.add(FirebaseFunctions.getInstance().user_id);
         FirebaseFunctions.getInstance().postEventDirect(temp);
+
+        Toast.makeText(this, "Request Sent.", Toast.LENGTH_LONG).show();
     }
 
     @Override

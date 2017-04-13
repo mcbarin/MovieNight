@@ -34,7 +34,6 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 /**
@@ -131,12 +130,16 @@ public class NotificationFragment extends Fragment {
                 viewHolder.button2 = (Button) convertView.findViewById(R.id.list_item_btn2);
 
                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-                mDatabase.child("users").child(FirebaseFunctions.getInstance().user_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                mDatabase.child("users").child(getItem(position).request).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         User user_read = dataSnapshot.getValue(User.class);
                         if(!(user_read == null)) {
-                            Picasso.with(getContext()).load(user_read.pp_url).into(viewHolder.thumbnail);
+                            if(!user_read.pp_url.isEmpty()){
+                                Picasso.with(getContext()).load(user_read.pp_url).into(viewHolder.thumbnail);
+                            } else{
+                                Picasso.with(getContext()).load(R.drawable.com_facebook_button_icon_white).into(viewHolder.thumbnail);
+                            }
                             viewHolder.title.setText(user_read.name + "\nCity: " + getItem(position).event.city + " \nHour: " +getItem(position).event.hour);
                         }
                     }
