@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 
@@ -95,7 +96,7 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerVi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final ImageView userImage;
+        public final CircularImageView userImage;
         public final TextView userName;
         public final TextView creatorLabel;
         public String mItem;
@@ -103,7 +104,7 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerVi
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            userImage = (ImageView) view.findViewById(R.id.userImage);
+            userImage = (CircularImageView) view.findViewById(R.id.userImage);
             userName = (TextView) view.findViewById(R.id.userName);
             creatorLabel = (TextView) view.findViewById(R.id.eventCreatorLabel);
         }

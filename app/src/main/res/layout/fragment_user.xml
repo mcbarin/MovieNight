@@ -2,18 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="90dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <com.pkmmte.view.CircularImageView
             android:id="@+id/userImage"
-            android:layout_width="60dp"
-            android:layout_height="80dp"
+            android:layout_width="66dp"
+            android:layout_height="66dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
+            app:border="true"
+            app:border_color="@color/white"
+            app:border_width="2dp"
+            app:shadow="true"
             />
 
         <TextView
@@ -23,7 +28,7 @@
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:layout_toRightOf="@+id/userImage"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="15dp"
             android:layout_centerVertical="true"
             />
 
@@ -37,9 +42,9 @@
             android:textStyle="bold"
             android:textSize="16sp"
             android:textColor="@color/bestPurple"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
             android:layout_centerVertical="true"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:layout_toRightOf="@id/userName"
+            android:layout_marginLeft="15dp"/>
     </RelativeLayout>
 </LinearLayout>
