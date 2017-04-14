@@ -17,6 +17,7 @@ public class User {
     public String name;
     public String email;
     public String pp_url;
+    public String bio;
 
     public User(){
 
@@ -28,14 +29,26 @@ public class User {
         this.pp_url = pp_url;
     }
 
+    public User(String username, String email, String pp_url, String bio) {
+        this.name = username;
+        this.email = email;
+        this.pp_url = pp_url;
+        this.bio = bio;
+    }
+
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("name", name);
         result.put("email", email);
         result.put("pp_url", pp_url);
+        result.put("bio", bio);
 
         return result;
+    }
+
+    public String toString(){
+        return this.name + " " + this.email + " " + this.pp_url + " " + this.bio;
     }
 
 }

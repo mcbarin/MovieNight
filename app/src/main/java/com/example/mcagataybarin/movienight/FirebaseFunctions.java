@@ -177,4 +177,10 @@ class FirebaseFunctions {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("events").child(temp.event_id).setValue(temp);
     }
+
+    public void postUserDirect(User temp) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("users").child(getCurrentUserId()).setValue(temp);
+    }
+
 }
