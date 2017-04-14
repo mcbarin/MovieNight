@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/blueishPurple"
     android:orientation="vertical"
     android:padding="16dp">
@@ -33,7 +34,7 @@
         android:layout_centerVertical="true"
          />
 
-    <ImageButton
+    <com.pkmmte.view.CircularImageView
         android:id="@+id/user_profile_photo"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -42,9 +43,11 @@
         android:layout_toRightOf="@+id/user_profile_name"
         android:background="@drawable/circular_border"
         android:onClick="ppClicked"
-        android:backgroundTint="@color/bestPurple"
         android:padding="20dp"
-        android:scaleType="centerCrop" />
+        app:border="true"
+        app:border_color="@color/white"
+        app:border_width="3dp"
+        app:shadow="true"/>
 
 </RelativeLayout>
 

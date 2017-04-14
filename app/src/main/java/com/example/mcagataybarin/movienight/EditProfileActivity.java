@@ -14,8 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.example.mcagataybarin.movienight.Models.User;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -28,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -72,7 +71,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     if(!photoUrl.isEmpty()) {
                         Uri photo_url = Uri.parse(photoUrl);
 
-                        ImageButton imageView = (ImageButton) findViewById(R.id.user_profile_photo);
+                        CircularImageView imageView = (CircularImageView) findViewById(R.id.user_profile_photo);
                         Picasso.with(getApplicationContext()).load(photo_url).into(imageView);
                         imageView.setVisibility(View.VISIBLE);
                     }
