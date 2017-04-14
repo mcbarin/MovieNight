@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 
@@ -78,7 +79,7 @@ public class ProfileFragment extends Fragment {
                     if(!photoUrl.isEmpty()) {
                         Uri photo_url = Uri.parse(photoUrl);
 
-                        ImageButton imageView = (ImageButton) view.findViewById(R.id.user_profile_photo);
+                        CircularImageView imageView = (CircularImageView) view.findViewById(R.id.user_profile_photo);
                         Picasso.with(getApplicationContext()).load(photo_url).into(imageView);
                         imageView.setVisibility(View.VISIBLE);
                     }
