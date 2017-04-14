@@ -120,6 +120,7 @@ public class EditProfileActivity extends AppCompatActivity {
         user_read.bio = user_bio.getText().toString();
 
         FirebaseFunctions.getInstance().postUserDirect(user_read);
+        this.finish();
 
 
     }

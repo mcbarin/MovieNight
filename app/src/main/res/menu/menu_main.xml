@@ -6,15 +6,16 @@
     <item
         android:id="@+id/edit"
         android:title="Edit"
-        android:icon="@drawable/com_facebook_button_like_icon_selected"
+        android:icon="@mipmap/edit"
         android:orderInCategory="1"
         app:showAsAction="always"
+
         android:visible="true"/>
 
-    <item
-        android:id="@+id/action_settings"
-        android:title="Settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    <!--<item-->
+        <!--android:id="@+id/action_settings"-->
+        <!--android:title="Settings"-->
+        <!--android:orderInCategory="100" app:showAsAction="never" />-->
 
 
 

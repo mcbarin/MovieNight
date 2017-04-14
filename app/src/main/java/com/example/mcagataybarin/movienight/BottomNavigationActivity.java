@@ -75,8 +75,8 @@ public class BottomNavigationActivity extends AppCompatActivity
                 Intent intent = new Intent(this, EditProfileActivity.class);
                 startActivity(intent);
                 return true;
-            case R.id.action_settings:
-                return true;
+//            case R.id.action_settings:
+//                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

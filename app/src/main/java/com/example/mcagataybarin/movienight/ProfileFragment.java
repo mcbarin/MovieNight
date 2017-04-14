@@ -29,7 +29,7 @@ public class ProfileFragment extends Fragment {
     private static String mUserId;
 
     private DatabaseReference mDatabase;
-    private TextView name;
+    private TextView name,bio;
     private View view;
 
     private OnFragmentInteractionListener mListener;
@@ -66,6 +66,7 @@ public class ProfileFragment extends Fragment {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         name = (TextView) view.findViewById(R.id.user_profile_name);
+        bio = (TextView) view.findViewById(R.id.userBio);
 
         mDatabase.child("users").child(mUserId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -73,6 +74,10 @@ public class ProfileFragment extends Fragment {
                 User user_read = dataSnapshot.getValue(User.class);
                 if(!(user_read == null)) {
                     name.setText(user_read.name);
+
+                    if(user_read.bio != null){
+                        bio.setText(user_read.bio);
+                    }
 
                     String photoUrl = user_read.pp_url;
                     FirebaseFunctions.getInstance().user_pp_url = user_read.pp_url;
