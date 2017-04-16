@@ -23,6 +23,10 @@ public class Movie {
         this.title = movie_info.get("title");
     }
 
+    public String toString(){
+        return this.title + " " + this.detail;
+    }
+
 
 
 }

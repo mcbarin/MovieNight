@@ -1,6 +1,7 @@
 package com.example.mcagataybarin.movienight;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -17,10 +18,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static java.nio.charset.StandardCharsets.*;
+
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
@@ -91,26 +98,38 @@ public class MovieFragment extends Fragment {
     }
 
     public void retrieveMovies(final Runnable onLoaded) {
-            mDatabase = FirebaseDatabase.getInstance().getReference();
-            DatabaseReference movies_reference = mDatabase.child("movies").child(FirebaseFunctions.getInstance().currentWeek);
-            movies_reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    ArrayList<Object> movies = ((ArrayList<Object>) dataSnapshot.getValue());
-                    for (int i = 0; i < movies.size(); i++) {
-                        Movie movie = new Movie(((HashMap<String, String>) movies.get(i)));
-                        upcoming_movies.add(movie);
-                    }
-                    FirebaseFunctions.getInstance().upcoming_movies = upcoming_movies;
-                    onLoaded.run();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference movies_reference = mDatabase.child("movies").child(FirebaseFunctions.getInstance().currentWeek);
+        movies_reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<Object> movies = ((ArrayList<Object>) dataSnapshot.getValue());
+                for (int i = 0; i < movies.size(); i++) {
+                    Movie movie = new Movie(((HashMap<String, String>) movies.get(i)));
+                    upcoming_movies.add(movie);
                 }
+                FirebaseFunctions.getInstance().upcoming_movies = upcoming_movies;
+                onLoaded.run();
+            }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-                }
-            });
+            }
+        });
     }
+
+    public void addToDatabase(Movie movie){
+        final SQLiteDatabase myDB = getActivity().openOrCreateDatabase("Movie", MODE_PRIVATE, null);
+        //Add to SQLite, to the movie table.
+        String detail=movie.detail.replaceAll("'", " ");
+        String title = movie.title.replaceAll("'", " ");
+        myDB.execSQL("INSERT INTO movie (date, detail, director, duration, genre, image, title) VALUES " +
+                "('" + movie.date + "', '" + detail + "', '" + movie.director + "', '" +
+                movie.duration + "', '" + movie.genre + "', '" + movie.image + "', '" + title + "' )");
+        //End
+    }
+
 
     @Override
     public void onAttach(Context context) {
@@ -143,5 +162,6 @@ public class MovieFragment extends Fragment {
         // TODO: Update argument type and name
         void onListFragmentInteraction(Movie item);
     }
+
 
 }
