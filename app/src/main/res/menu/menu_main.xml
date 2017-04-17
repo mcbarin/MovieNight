@@ -9,13 +9,16 @@
         android:icon="@mipmap/edit"
         android:orderInCategory="1"
         app:showAsAction="always"
-
         android:visible="true"/>
 
-    <!--<item-->
-        <!--android:id="@+id/action_settings"-->
-        <!--android:title="Settings"-->
-        <!--android:orderInCategory="100" app:showAsAction="never" />-->
+
+    <item
+        android:id="@+id/logout"
+        android:title="LogOut"
+        android:orderInCategory="2"
+        app:showAsAction="always"
+        android:icon="@mipmap/logout"
+        android:visible="true"/>
 
 
 

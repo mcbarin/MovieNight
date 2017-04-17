@@ -21,6 +21,7 @@ import android.widget.ShareActionProvider;
 
 import com.example.mcagataybarin.movienight.Models.Event;
 import com.example.mcagataybarin.movienight.Models.Movie;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -109,8 +110,12 @@ public class BottomNavigationActivity extends AppCompatActivity
                 Intent intent = new Intent(this, EditProfileActivity.class);
                 startActivity(intent);
                 return true;
-//            case R.id.action_settings:
-//                return true;
+            case R.id.logout:
+                FirebaseAuth.getInstance().signOut();
+                Intent intent1 = new Intent(this, LoginActivity.class);
+                startActivity(intent1);
+                finish();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
