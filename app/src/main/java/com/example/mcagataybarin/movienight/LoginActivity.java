@@ -213,8 +213,10 @@ public class LoginActivity extends AppCompatActivity {
         final EditText password = (EditText) findViewById(R.id.passwordField);
 
         if(email.getText().toString().isEmpty()){
-            signIn("a2@a.com", "abdullah");
-        }else {
+            Toast.makeText(getApplicationContext(), "Enter e-mail.", Toast.LENGTH_SHORT).show();
+        }else if(password.getText().toString().isEmpty()){
+            Toast.makeText(getApplicationContext(), "Enter password", Toast.LENGTH_SHORT).show();
+        } else {
             signIn(email.getText().toString(), password.getText().toString());
         }
 

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,8 +106,12 @@ public class MovieFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<Object> movies = ((ArrayList<Object>) dataSnapshot.getValue());
                 for (int i = 0; i < movies.size(); i++) {
-                    Movie movie = new Movie(((HashMap<String, String>) movies.get(i)));
-                    upcoming_movies.add(movie);
+                    try {
+                        Movie movie = new Movie(((HashMap<String, String>) movies.get(i)));
+                        upcoming_movies.add(movie);
+                    } catch (ClassCastException ex){
+                        Log.i("MOVIE RETRIEVE ERROR", "ERROR");
+                    }
                 }
                 FirebaseFunctions.getInstance().upcoming_movies = upcoming_movies;
                 onLoaded.run();
