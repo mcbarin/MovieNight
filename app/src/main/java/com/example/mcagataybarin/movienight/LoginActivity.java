@@ -38,6 +38,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 
 // https://firebase.google.com/docs/auth/android/manage-users#update_a_users_profile
 
@@ -54,12 +56,14 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Load the movies beforehand.  :):):):)
-        getCurrentWeek();
-
         // For Facebook Authentication
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
+
+        getCurrentWeek(new Runnable() {
+            public void run() {
+            }
+        });
 
         callbackManager = CallbackManager.Factory.create();
         LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
@@ -154,8 +158,18 @@ public class LoginActivity extends AppCompatActivity {
 
                             };
 
-                            Intent intent = new Intent(LoginActivity.this, BottomNavigationActivity.class);
-                            LoginActivity.this.startActivity(intent);
+                            if(FirebaseFunctions.getInstance().currentWeek.isEmpty()){
+                                getCurrentWeek(new Runnable() {
+                                    public void run() {
+                                        Intent intent = new Intent(LoginActivity.this, BottomNavigationActivity.class);
+                                        LoginActivity.this.startActivity(intent);
+                                    }
+                                });
+                            } else {
+                                Intent intent = new Intent(LoginActivity.this, BottomNavigationActivity.class);
+                                LoginActivity.this.startActivity(intent);
+                            }
+
                         }
 
                         // ...
@@ -200,8 +214,18 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                         }
                         else {
-                            Intent intent = new Intent(LoginActivity.this, BottomNavigationActivity.class);
-                            LoginActivity.this.startActivity(intent);
+                            if(FirebaseFunctions.getInstance().currentWeek.isEmpty()){
+                                getCurrentWeek(new Runnable() {
+                                    public void run() {
+                                        Intent intent = new Intent(LoginActivity.this, BottomNavigationActivity.class);
+                                        LoginActivity.this.startActivity(intent);
+                                    }
+                                });
+                            } else {
+                                Intent intent = new Intent(LoginActivity.this, BottomNavigationActivity.class);
+                                LoginActivity.this.startActivity(intent);
+                            }
+
                         }
                     }
                 });
@@ -225,7 +249,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    public void getCurrentWeek(){
+    public void getCurrentWeek(final Runnable onLoaded){
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         DatabaseReference movies_reference = mDatabase.child("movies");
@@ -234,7 +258,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 FirebaseFunctions.getInstance().currentWeek = String.valueOf(dataSnapshot.getChildrenCount() - 1);
+                onLoaded.run();
             }
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {

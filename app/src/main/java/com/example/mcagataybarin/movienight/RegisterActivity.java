@@ -103,8 +103,17 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.makeText(RegisterActivity.this, "Oooppss! Try Again.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            Intent intent = new Intent(RegisterActivity.this, BottomNavigationActivity.class);
-                            RegisterActivity.this.startActivity(intent);
+                            if(FirebaseFunctions.getInstance().currentWeek.isEmpty()){
+                                getCurrentWeek(new Runnable() {
+                                    public void run() {
+                                        Intent intent = new Intent(RegisterActivity.this, BottomNavigationActivity.class);
+                                        RegisterActivity.this.startActivity(intent);
+                                    }
+                                });
+                            } else {
+                                Intent intent = new Intent(RegisterActivity.this, BottomNavigationActivity.class);
+                                RegisterActivity.this.startActivity(intent);
+                            }
                         }
                     }
                 });
@@ -153,6 +162,26 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    public void getCurrentWeek(final Runnable onLoaded){
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference movies_reference = mDatabase.child("movies");
+
+        movies_reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                FirebaseFunctions.getInstance().currentWeek = String.valueOf(dataSnapshot.getChildrenCount() - 1);
+                onLoaded.run();
+            }
+
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
 
     public void updateProfile(String name) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

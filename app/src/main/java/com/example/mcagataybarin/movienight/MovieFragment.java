@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.mcagataybarin.movienight.Models.Event;
 import com.example.mcagataybarin.movienight.Models.Movie;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -101,19 +102,19 @@ public class MovieFragment extends Fragment {
     public void retrieveMovies(final Runnable onLoaded) {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         DatabaseReference movies_reference = mDatabase.child("movies").child(FirebaseFunctions.getInstance().currentWeek);
+
         movies_reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<Object> movies = ((ArrayList<Object>) dataSnapshot.getValue());
-                for (int i = 0; i < movies.size(); i++) {
-                    try {
-                        Movie movie = new Movie(((HashMap<String, String>) movies.get(i)));
+                if (dataSnapshot.exists() && dataSnapshot.hasChildren()) {
+
+                    for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                        Movie movie = issue.getValue(Movie.class);
                         upcoming_movies.add(movie);
-                    } catch (ClassCastException ex){
-                        Log.i("MOVIE RETRIEVE ERROR", "ERROR");
+                        System.out.println("yoo " + movie);
                     }
+                    FirebaseFunctions.getInstance().upcoming_movies = upcoming_movies;
                 }
-                FirebaseFunctions.getInstance().upcoming_movies = upcoming_movies;
                 onLoaded.run();
             }
 
@@ -124,10 +125,10 @@ public class MovieFragment extends Fragment {
         });
     }
 
-    public void addToDatabase(Movie movie){
+    public void addToDatabase(Movie movie) {
         final SQLiteDatabase myDB = getActivity().openOrCreateDatabase("Movie", MODE_PRIVATE, null);
         //Add to SQLite, to the movie table.
-        String detail=movie.detail.replaceAll("'", " ");
+        String detail = movie.detail.replaceAll("'", " ");
         String title = movie.title.replaceAll("'", " ");
         myDB.execSQL("INSERT INTO movie (date, detail, director, duration, genre, image, title) VALUES " +
                 "('" + movie.date + "', '" + detail + "', '" + movie.director + "', '" +
