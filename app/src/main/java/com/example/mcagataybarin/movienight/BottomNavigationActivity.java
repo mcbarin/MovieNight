@@ -73,6 +73,7 @@ public class BottomNavigationActivity extends AppCompatActivity
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         FirebaseMessaging.getInstance().subscribeToTopic("pushNotifications");
+        FirebaseMessaging.getInstance().subscribeToTopic("pushNotification");
 
         // When no internet connection :
         System.out.println("INTERNET CONNECTION? ::   " + isNetworkAvailable());
