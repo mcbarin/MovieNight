@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -88,7 +89,7 @@ public class EditProfileActivity extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.M)
     public void ppClicked(View view){
 
-        if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
 
             // Should we show an explanation?
@@ -143,7 +144,6 @@ public class EditProfileActivity extends AppCompatActivity {
             Uri file = Uri.fromFile(new File(getPath(selectedImage)));
             StorageReference riversRef = storageRef.child("images/"+file.getLastPathSegment());
             UploadTask uploadTask = riversRef.putFile(file);
-            new_pp = riversRef.getDownloadUrl().toString();
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
@@ -154,7 +154,8 @@ public class EditProfileActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                    new_pp = taskSnapshot.getDownloadUrl().toString();
+                    System.out.println("yoo " + new_pp);
                 }
             });
 

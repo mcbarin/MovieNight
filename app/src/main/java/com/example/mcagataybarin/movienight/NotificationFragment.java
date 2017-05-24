@@ -28,7 +28,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -126,7 +125,7 @@ public class NotificationFragment extends Fragment {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
                 convertView = inflater.inflate(layout, parent, false);
                 final ViewHolder viewHolder = new ViewHolder();
-                viewHolder.thumbnail = (CircularImageView) convertView.findViewById(R.id.list_item_thumbnail);
+                viewHolder.thumbnail = (ImageView) convertView.findViewById(R.id.list_item_thumbnail);
                 viewHolder.title = (TextView) convertView.findViewById(R.id.list_item_text);
                 viewHolder.button = (Button) convertView.findViewById(R.id.list_item_btn);
                 viewHolder.button2 = (Button) convertView.findViewById(R.id.list_item_btn2);
@@ -216,7 +215,7 @@ public class NotificationFragment extends Fragment {
     }
     public class ViewHolder {
 
-        CircularImageView thumbnail;
+        ImageView thumbnail;
         TextView title;
         Button button;
         Button button2;
@@ -310,7 +309,6 @@ public class NotificationFragment extends Fragment {
             this.event = event;
 
         }
-
 
     }
 
